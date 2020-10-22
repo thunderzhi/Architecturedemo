@@ -20,6 +20,8 @@
     <modules>
 
         <module>aopdemo</module>
+<!--        <module>utils</module>-->
+<!--        <module>common</module>-->
     </modules>
 
     <properties>
@@ -73,6 +75,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${springboot.version}</version>
             </dependency>
             <dependency>

@@ -20,7 +20,8 @@
     <modules>
 
         <module>aopdemo</module>
-<!--        <module>utils</module>-->
+        <module>utils</module>
+        <module>redisdemo</module>
 <!--        <module>common</module>-->
     </modules>
 

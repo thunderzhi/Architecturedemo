@@ -9,7 +9,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>cxzmvc Maven Webapp</name>
+  <name>cxzmvc-Webapp</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 

@@ -6,7 +6,6 @@
         <groupId>com.cxz</groupId>
         <artifactId>architecturedemo</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>com.cxz</groupId>

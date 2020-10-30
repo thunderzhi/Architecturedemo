@@ -2,7 +2,6 @@
 <c:set var="stc" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-    <script src="${stc}/scripts/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${stc}/css/test.css" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/test.css"/> " />
 </head>

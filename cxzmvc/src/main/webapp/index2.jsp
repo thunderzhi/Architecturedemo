@@ -11,8 +11,10 @@
     <script src="${stc}/js/axios.min.js"></script>
 </head>
 <body>
+fffffffffffff
+<h2>${msg}</h2>
 <div id="app">
-    {{ info }}
+    {{ info.success }}
 </div>
 
 <script type = "text/javascript">
@@ -25,8 +27,8 @@
         },
         mounted () {
             axios
-                .get('json')
-                .then(response => (this.info = response))
+                .get('rk')
+                .then(response => (this.info = response.data))
                 .catch(function (error) { // 请求失败处理
                     console.log(error);
                 });

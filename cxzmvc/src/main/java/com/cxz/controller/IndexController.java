@@ -1,7 +1,7 @@
 package com.cxz.controller;
 
-import com.cxz.service.RedisService;
-import com.cxz.util.RedisUtil2;
+import com.cxz.impl.RedisService;
+import com.cxz.impl.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,7 +59,7 @@ public class IndexController {
         String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        redisService.redisUtil2.set(key,dateStr);
+        //redisService.redisUtil2.set(key,dateStr);
         json.put("success", key);
         return json;
     }

@@ -28,10 +28,19 @@
         <property name="maxWaitMillis" value="${redis.maxWait}"></property>
         <property name="maxTotal" value="${redis.maxActive}"></property>
     </bean>
+    <bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+
     <bean id="StringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
         <property name="connectionFactory"   ref="connectionFactory" />
     </bean>
     <bean id="redistemplate" class="org.springframework.data.redis.core.RedisTemplate">
         <property name="connectionFactory"   ref="connectionFactory" />
+    </bean>
+    <bean id="redistemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory"   ref="connectionFactory" />
+        <property name="keySerializer" ref="stringRedisSerializer"/>
+        <property name="valueSerializer" ref="stringRedisSerializer"/>
+        <property name="hashKeySerializer" ref="stringRedisSerializer"/>
+        <property name="hashValueSerializer" ref="stringRedisSerializer"/>
     </bean>
 </beans>

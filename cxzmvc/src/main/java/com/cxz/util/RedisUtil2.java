@@ -160,6 +160,14 @@ public class RedisUtil2 {
         }
 
     }
+    public boolean setStr(String key, String value){
+        try {
+            stringRedisTemplate.opsForValue().set(key,value);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     /**
      * 普通缓存放入并设置时间

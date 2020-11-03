@@ -92,8 +92,26 @@ public class IndexController {
 
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        boolean b = redisService.redisUtil2.set(k,jsonstr);
+        boolean b = redisService.redisUtil2.setStr(k,jsonstr);
         json.put("success", String.valueOf(b));
         return json;
     }
+
+    @RequestMapping("/get")
+    public Map<String, Object> getk(String k){
+        HashMap json = new HashMap();
+
+        Object obj = null;
+        try {
+            obj = redisService.redisUtil2.get(k);
+        } catch (Exception e) {
+            e.printStackTrace();
+            json.put("fail", "fail");
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        //String jsonstr = objectMapper.readValue(obj,User.class);
+        json.put("success", obj);
+        return json;
+    }
+
 }

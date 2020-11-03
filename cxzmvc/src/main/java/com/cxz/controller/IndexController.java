@@ -3,6 +3,8 @@ package com.cxz.controller;
 import com.cxz.impl.RedisService;
 import com.cxz.impl.TestService;
 import com.cxz.model.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,15 +81,18 @@ public class IndexController {
 
     @RequestMapping("/add")
     //@ResponseBody
-    public Map<String, String> adduser(String k){
+    public Map<String, String> adduser(String k) throws JsonProcessingException {
         User u = new User();
         HashMap json = new HashMap();
         String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         u.setAge(dateStr);
         u.setName(k);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonstr = objectMapper.writeValueAsString(u);
+
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        boolean b = redisService.redisUtil2.set(k,u);
+        boolean b = redisService.redisUtil2.set(k,jsonstr);
         json.put("success", String.valueOf(b));
         return json;
     }

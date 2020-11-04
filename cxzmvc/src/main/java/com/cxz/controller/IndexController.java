@@ -5,6 +5,7 @@ import com.cxz.impl.TestService;
 import com.cxz.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/home")
 public class IndexController {
+    private static final Logger logger = Logger.getLogger(IndexController.class);
     @Autowired
     public RedisService redisService;
 
@@ -64,6 +66,7 @@ public class IndexController {
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
         //redisService.redisUtil2.set(key,dateStr);
         json.put("success", key);
+        logger.debug("getWelcome is executed!");
         return json;
     }
 

@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -24,11 +25,10 @@ import java.util.concurrent.TimeUnit;
  * @Description:
  * @date 2020/10/30 16:40
  */
-//@Component
-@Service
-public final class RedisUtil  {
-    @Resource
-    private RedisTemplate<String,String>  redistemplate;
+@Component
+public class RedisUtil {
+    @Autowired
+    private RedisTemplate redistemplate;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -150,7 +150,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return true成功 false失败
      */
-    public boolean set(String key, String value) {
+    public boolean set(String key, Object value) {
         try {
             redistemplate.opsForValue().set(key, value);
             return true;
@@ -159,6 +159,14 @@ public final class RedisUtil  {
             return false;
         }
 
+    }
+    public boolean setStr(String key, String value){
+        try {
+            stringRedisTemplate.opsForValue().set(key,value);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -169,7 +177,7 @@ public final class RedisUtil  {
      * @param time  时间(秒) time要大于0 如果time小于等于0 将设置无限期
      * @return true成功 false 失败
      */
-    public boolean set(String key, String value, long time) {
+    public boolean set(String key, Object value, long time) {
         try {
             if (time > 0) {
                 redistemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
@@ -370,7 +378,7 @@ public final class RedisUtil  {
      * @Date: 2019-06-05 18:03
      * @return: java.util.Set<java.lang.Object>
      */
-    public Set<String> zrange(String key, long start, long end) {
+    public Set<Object> zrange(String key, long start, long end) {
 
         try {
             return redistemplate.opsForZSet().range(key, start, end);
@@ -388,7 +396,7 @@ public final class RedisUtil  {
      * @Date: 2019-06-05 18:03
      * @return: java.util.Set<java.lang.Object>
      */
-    public boolean zAdd(String key, String value, double score) {
+    public boolean zAdd(String key, Object value, double score) {
 
         try {
             return redistemplate.opsForZSet().add(key, value, score);
@@ -406,7 +414,7 @@ public final class RedisUtil  {
      * @param key 键
      * @return
      */
-    public Set<String> sGet(String key) {
+    public Set<Object> sGet(String key) {
         try {
             return redistemplate.opsForSet().members(key);
         } catch (Exception e) {
@@ -422,7 +430,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return true 存在 false不存在
      */
-    public boolean sHasKey(String key, String value) {
+    public boolean sHasKey(String key, Object value) {
         try {
             return redistemplate.opsForSet().isMember(key, value);
         } catch (Exception e) {
@@ -438,7 +446,7 @@ public final class RedisUtil  {
      * @param values 值 可以是多个
      * @return 成功个数
      */
-    public long sSet(String key, String... values) {
+    public long sSet(String key, Object... values) {
         try {
             return redistemplate.opsForSet().add(key, values);
         } catch (Exception e) {
@@ -455,7 +463,7 @@ public final class RedisUtil  {
      * @param values 值 可以是多个
      * @return 成功个数
      */
-    public long sSetAndTime(String key, long time, String... values) {
+    public long sSetAndTime(String key, long time, Object... values) {
         try {
             Long count = redistemplate.opsForSet().add(key, values);
             if (time > 0) {
@@ -490,7 +498,7 @@ public final class RedisUtil  {
      * @param values 值 可以是多个
      * @return 移除的个数
      */
-    public long setRemove(String key, String... values) {
+    public long setRemove(String key, Object... values) {
         try {
             Long count = redistemplate.opsForSet().remove(key, values);
             return count;
@@ -510,7 +518,7 @@ public final class RedisUtil  {
      * @param end   结束 0 到 -1代表所有值
      * @return
      */
-    public List<String> lGet(String key, long start, long end) {
+    public List<Object> lGet(String key, long start, long end) {
         try {
             return redistemplate.opsForList().range(key, start, end);
         } catch (Exception e) {
@@ -557,7 +565,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return
      */
-    public boolean lPush(String key, String value) {
+    public boolean lPush(String key, Object value) {
         try {
             redistemplate.opsForList().leftPush(key, value);
             return true;
@@ -574,7 +582,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return
      */
-    public boolean rPush(String key, String value) {
+    public boolean rPush(String key, Object value) {
         try {
             redistemplate.opsForList().rightPush(key, value);
             return true;
@@ -608,7 +616,7 @@ public final class RedisUtil  {
      * @param time  时间(秒)
      * @return
      */
-    public boolean rPush(String key, String value, long time) {
+    public boolean rPush(String key, Object value, long time) {
         try {
             redistemplate.opsForList().rightPush(key, value);
             if (time > 0) {
@@ -628,7 +636,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return
      */
-    public boolean lSetList(String key, List<String> value) {
+    public boolean lSetList(String key, List<Object> value) {
         try {
             redistemplate.opsForList().rightPushAll(key, value);
             return true;
@@ -646,7 +654,7 @@ public final class RedisUtil  {
      * @param time  时间(秒)
      * @return
      */
-    public boolean lSet(String key, List<String> value, long time) {
+    public boolean lSet(String key, List<Object> value, long time) {
         try {
             redistemplate.opsForList().rightPushAll(key, value);
             if (time > 0) {
@@ -667,7 +675,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return
      */
-    public boolean lUpdateIndex(String key, long index, String value) {
+    public boolean lUpdateIndex(String key, long index, Object value) {
         try {
             redistemplate.opsForList().set(key, index, value);
             return true;
@@ -685,7 +693,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return 移除的个数
      */
-    public long lRemove(String key, long count, String value) {
+    public long lRemove(String key, long count, Object value) {
         try {
             Long remove = redistemplate.opsForList().remove(key, count, value);
             return remove;

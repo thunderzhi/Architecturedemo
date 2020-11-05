@@ -1,6 +1,7 @@
 package com.cxz.util;
 
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.connection.ReturnType;
@@ -32,7 +33,7 @@ public class RedisUtil {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-
+    private static final Logger logger = Logger.getLogger(RedisUtil.class);
     //region COMMON
     /**
      * 尝试获取分布式锁
@@ -155,7 +156,7 @@ public class RedisUtil {
             redistemplate.opsForValue().set(key, value);
             return true;
         } catch (Exception e) {
-            // log.warn("保存缓存异常", e);
+            logger.debug("保存缓存异常!",e);
             return false;
         }
 
@@ -165,6 +166,7 @@ public class RedisUtil {
             stringRedisTemplate.opsForValue().set(key,value);
             return true;
         } catch (Exception e) {
+            logger.debug("保存缓存异常!",e);
             return false;
         }
     }

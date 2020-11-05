@@ -95,6 +95,7 @@ public class IndexController {
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
         boolean b = redisService.redisUtil.setStr(k,jsonstr);
+        logger.debug("add is executed!");
         json.put("success", String.valueOf(b));
         return json;
     }

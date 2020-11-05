@@ -1,0 +1,33 @@
+package com.cxz.controller;
+
+import com.cxz.impl.RedisService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+/**
+ * @author cxz
+ * @Title:
+ * @Package
+ * @Description:
+ * @date 2020/11/5 16:38
+ */
+@RestController
+@RequestMapping("/redis")
+public class redisopController {
+    private static final Logger logger = Logger.getLogger(redisopController.class);
+    @Autowired
+    public RedisService redisService;
+
+    @RequestMapping("/index")
+    public ModelAndView index2(Model model) {
+        model.addAttribute("msg","Hello Spring MVC!");
+
+        return new ModelAndView("redis/redisindex");
+    }
+
+
+}

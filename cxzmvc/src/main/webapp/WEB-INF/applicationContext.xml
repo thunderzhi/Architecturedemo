@@ -19,10 +19,10 @@
     </context:component-scan>
 
     <import resource="redis-context.xml"/>
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/jsp/"></property>
-        <property name="suffix" value=".jsp"></property>
-    </bean>
+<!--    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+<!--        <property name="prefix" value="/WEB-INF/views/"></property>-->
+<!--        <property name="suffix" value=".jsp"></property>-->
+<!--    </bean>-->
     <bean id="objectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"
           p:indentOutput="true"
           p:simpleDateFormat="yyyy-MM-dd" />

@@ -144,6 +144,9 @@ public class RedisUtil {
         return key == null ? null : redistemplate.opsForValue().get(key);
     }
 
+    public String getStr(String key) {
+        return key == null ? null : stringRedisTemplate.opsForValue().get(key);
+    }
     /**
      * 普通缓存放入
      *

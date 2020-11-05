@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,18 +102,18 @@ public class IndexController {
     }
 
     @RequestMapping("/get")
-    public Map<String, Object> getk(String k){
+    public Map<String, Object> getk(String k) throws IOException {
         HashMap json = new HashMap();
 
-        Object obj = null;
+        String jsonstr = "";
         try {
-            obj = redisService.redisUtil.get(k);
+            jsonstr = redisService.redisUtil.getStr(k);
         } catch (Exception e) {
             e.printStackTrace();
             json.put("fail", "fail");
         }
         ObjectMapper objectMapper = new ObjectMapper();
-        //String jsonstr = objectMapper.readValue(obj,User.class);
+        User obj = objectMapper.readValue(jsonstr,User.class);
         json.put("success", obj);
         return json;
     }

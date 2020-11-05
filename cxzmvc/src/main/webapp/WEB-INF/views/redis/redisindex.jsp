@@ -7,7 +7,7 @@
 </head>
 
 <body>
-<h2>Hello World!3333</h2>
+<h2>redisIndex</h2>
 <script type="text/javascript" src="js/vue.min.js" ></script>
 <script src="js/jquery.min.js"></script>
 
@@ -15,7 +15,7 @@
 
 
 
-<p>Spring MVC based on XML config success!</p>
+<p>redisIndex success!</p>
 
 </body>
 </html>

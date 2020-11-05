@@ -1,6 +1,6 @@
 package com.cxz.impl;
 
-import com.cxz.util.RedisUtil2;
+import com.cxz.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class RedisService {
     @Autowired
-    public RedisUtil2 redisUtil2;
+    public RedisUtil redisUtil;
 
     public boolean set(String key, Object value){
-        return this.redisUtil2.set(  key, value);
+        return this.redisUtil.set(  key, value);
     }
 }

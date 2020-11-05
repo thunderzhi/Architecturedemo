@@ -1,7 +1,6 @@
 package com.cxz.controller;
 
 import com.cxz.impl.RedisService;
-import com.cxz.impl.TestService;
 import com.cxz.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -77,7 +76,7 @@ public class IndexController {
         //String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        Object v = redisService.redisUtil2.get(k);
+        Object v = redisService.redisUtil.get(k);
         json.put("success", v);
         return json;
     }
@@ -95,7 +94,7 @@ public class IndexController {
 
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        boolean b = redisService.redisUtil2.setStr(k,jsonstr);
+        boolean b = redisService.redisUtil.setStr(k,jsonstr);
         json.put("success", String.valueOf(b));
         return json;
     }
@@ -106,7 +105,7 @@ public class IndexController {
 
         Object obj = null;
         try {
-            obj = redisService.redisUtil2.get(k);
+            obj = redisService.redisUtil.get(k);
         } catch (Exception e) {
             e.printStackTrace();
             json.put("fail", "fail");

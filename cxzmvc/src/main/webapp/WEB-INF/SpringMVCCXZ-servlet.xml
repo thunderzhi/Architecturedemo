@@ -34,6 +34,10 @@
         <property name="suffix" value=".jsp"/>
         <property name="exposeContextBeansAsAttributes" value="true"/>
     </bean>
-
+    <!-- 文件上传,id必须设置为multipartResolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置文件上传大小 5M -->
+        <property name="maxUploadSize" value="5000000" />
+    </bean>
 
 </beans>

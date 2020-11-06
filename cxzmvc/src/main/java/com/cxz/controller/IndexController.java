@@ -25,22 +25,16 @@ import java.util.Map;
  * @date 2020/10/26 15:08
  */
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/")
 public class IndexController {
     private static final Logger logger = Logger.getLogger(IndexController.class);
     @Autowired
     public RedisService redisService;
 
     @RequestMapping("/index")
-    public String index() {
-        return "index";
-    }
-
-    @RequestMapping("/index2")
-    public ModelAndView index2(Model model) {
-        model.addAttribute("msg","Hello Spring MVC!");
-
-        return new ModelAndView("index2");
+    public ModelAndView index()
+    {
+        return new ModelAndView("index");
     }
 
     @RequestMapping("/para")

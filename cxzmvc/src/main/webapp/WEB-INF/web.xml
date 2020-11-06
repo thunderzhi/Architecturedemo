@@ -74,5 +74,8 @@
         -->
         <url-pattern>/</url-pattern><!--会拦截URL中带“/”的请求。-->
     </servlet-mapping>
-
+    <!--指定欢迎页面-->
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

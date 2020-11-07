@@ -196,6 +196,19 @@ public class RedisUtil {
         }
     }
 
+    public boolean setStr(String key, String value, long time) {
+        try {
+            if (time > 0) {
+                stringRedisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+            } else {
+                set(key, value);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     /**
      * 递增
      *

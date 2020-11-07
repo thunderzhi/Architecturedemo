@@ -27,4 +27,19 @@ public class RedisService {
         String jsonstr = objectMapper.writeValueAsString(value);
         return this.redisUtil.setStr(  key, jsonstr);
     }
+
+    public boolean setStr(String key, Object value,long time) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonstr = objectMapper.writeValueAsString(value);
+        return this.redisUtil.setStr(  key, jsonstr,time);
+    }
+
+    public long incr(String key, long delta) {
+
+        return this.redisUtil.incr(key, delta);
+    }
+    public long decr(String key, long delta)
+    {
+        return this.redisUtil.decr(key, delta);
+    }
 }

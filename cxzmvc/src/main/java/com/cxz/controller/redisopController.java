@@ -36,7 +36,8 @@ public class redisopController {
 
         return new ModelAndView("redis/redisindex");
     }
-
+    /*
+     * 添加key*/
     @RequestMapping(value = "/set", method = {RequestMethod.POST,RequestMethod.GET})
     //@ResponseBody
     public Map<String, String> addkey(@RequestParam("key")  String key) throws JsonProcessingException {
@@ -57,7 +58,8 @@ public class redisopController {
         //json.put("success",key);
         return json;
     }
-
+    /*
+     * 添加带有过期时间key*/
     @RequestMapping(value = "/expstr", method = {RequestMethod.POST})
     public Map<String, String> addexpstr(@RequestParam("key")  String key) throws JsonProcessingException {
         User u = new User();
@@ -72,35 +74,33 @@ public class redisopController {
 
         return json;
     }
-
+    /*
+     * 获取key value*/
     @RequestMapping(value = "/getkey", method = {RequestMethod.POST,RequestMethod.GET})
     //@ResponseBody
     public Map<String, String> getkey(@RequestParam("key")  String key) throws JsonProcessingException {
         User u = new User();
         HashMap json = new HashMap();
         String jsonstr = Long.toString(System.currentTimeMillis()/1000L);
-
-
         try {
             jsonstr = redisService.redisUtil.getStr(key);
         } catch (Exception e) {
             e.printStackTrace();
             json.put("fail", "fail");
         }
-
         logger.debug("get is executed!"+key);
         //json.put("success", String.valueOf(b));
         json.put("success",jsonstr);
         return json;
     }
-
+    /*
+     * 原子加减key*/
     @RequestMapping(value = "/incrment", method = {RequestMethod.POST})
     //@ResponseBody
     public Map<String, String> incrment(@RequestParam("key")  String key,@RequestParam("isincr")  boolean isincr) throws JsonProcessingException {
         User u = new User();
         HashMap json = new HashMap();
         String jsonstr = Long.toString(System.currentTimeMillis()/1000L);
-
         long res=0;
         try {
             if (isincr)
@@ -121,4 +121,5 @@ public class redisopController {
         return json;
     }
 
+    
 }

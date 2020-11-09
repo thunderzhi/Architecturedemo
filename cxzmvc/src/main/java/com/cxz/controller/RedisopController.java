@@ -25,8 +25,8 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/redis")
-public class redisopController {
-    private static final Logger logger = Logger.getLogger(redisopController.class);
+public class RedisopController {
+    private static final Logger logger = Logger.getLogger(RedisopController.class);
     @Autowired
     public RedisService redisService;
 
@@ -121,5 +121,5 @@ public class redisopController {
         return json;
     }
 
-    
+
 }

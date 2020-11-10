@@ -21,25 +21,32 @@ public class RedisService {
     public boolean set(String key, Object value){
         return this.redisUtil.set(  key, value);
     }
-
+    /*设置字符串kv*/
     public boolean setStr(String key, Object value) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonstr = objectMapper.writeValueAsString(value);
         return this.redisUtil.setStr(  key, jsonstr);
     }
 
+    /*设置字符串kv,超时时间*/
     public boolean setStr(String key, Object value,long time) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonstr = objectMapper.writeValueAsString(value);
         return this.redisUtil.setStr(  key, jsonstr,time);
     }
 
-    public long incr(String key, long delta) {
-
+    /*设置原子自增减*/
+    public long incr(String key, long delta){
         return this.redisUtil.incr(key, delta);
     }
-    public long decr(String key, long delta)
-    {
+
+    /*设置原子自增减*/
+    public long decr(String key, long delta){
         return this.redisUtil.decr(key, delta);
+    }
+
+    /*锁*/
+    public boolean lock(){
+
     }
 }

@@ -46,7 +46,10 @@ public class RedisService {
     }
 
     /*锁*/
-    public boolean lock(){
-
+    public boolean lock(String key, String value, long milliseconds){
+        return this.redisUtil.lock2(key, value,milliseconds);
+    }
+    public boolean unlock(String key, String value){
+        return this.redisUtil.releaselock2(key, value);
     }
 }

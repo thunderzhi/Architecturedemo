@@ -120,6 +120,28 @@ public class RedisopController {
         json.put("success",jsonstr);
         return json;
     }
+    /*
+     * lock*/
+    @RequestMapping(value = "/lock", method = {RequestMethod.POST})
+    public Map<String, String> lock(){
+        HashMap json = new HashMap();
+
+        boolean res = false;
+
+        res= redisService.lock("lock","1",10000);
+        json.put("res =",String.valueOf(res));
+        return json;
+    }
+    @RequestMapping(value = "/unlock")
+    public Map<String, String> unlock(){
+        HashMap json = new HashMap();
+
+        boolean res = false;
+
+        res= redisService.unlock("lock","1");
+        json.put("res =",String.valueOf(res));
+        return json;
+    }
 
 
 }

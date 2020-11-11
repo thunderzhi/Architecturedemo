@@ -63,6 +63,15 @@
                         <el-button type="primary" @click="incrment(false)">-1</el-button>{{info}}
                     </el-form-item>
                 </el-form>
+                <el-form :inline="true" :model="form4" class="demo-form-inline">
+                    <el-form-item label="LOCK">
+                        <el-input v-model="form4.key" placeholder="key"></el-input>
+
+                        <el-button type="primary" @click="lock">lock</el-button>{{info}}
+                        <el-button type="primary" @click="unlock">unlock</el-button>{{info}}
+                        <el-button type="primary" @click="exp">exp</el-button>{{info}}
+                    </el-form-item>
+                </el-form>
             </div>
         </el-col>
     </el-row>
@@ -102,6 +111,9 @@
                 key2: '',
             },
             form3: {
+                key: '',
+            },
+            form4: {
                 key: '',
             },
             formListInline: {
@@ -221,7 +233,33 @@
                     .catch(function (error) { // 请求失败处理
                         console.log(error);
                     });
-            }
+            },
+
+            lock(){
+                axios
+                    .get('lock')
+                    .then(response => (this.info = response.data))
+                    .catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    });
+            },
+            unlock(){
+                axios
+                    .get('unlock')
+                    .then(response => (this.info = response.data))
+                    .catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    });
+            },
+
+            exp(){
+                axios
+                    .get('getexp')
+                    .then(response => (this.info = response.data))
+                    .catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    });
+            },
         }
     })
 </script>

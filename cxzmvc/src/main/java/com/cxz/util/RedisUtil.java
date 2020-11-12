@@ -78,7 +78,7 @@ public class RedisUtil {
             if (null != key && !key.isEmpty() && null != value && !value.isEmpty() && milliseconds > 0) {
                 List<String> keys = Collections.singletonList(key);
 
-                return (boolean) redistemplate.execute(redisScript,keys,value,String.valueOf(milliseconds));
+                return (boolean) stringRedisTemplate.execute(redisScript,keys,value,String.valueOf(milliseconds));
             }
         } catch (Exception ex) {
             logger.debug("lock2异常!",ex);
@@ -93,7 +93,7 @@ public class RedisUtil {
 
             if (null != key && !key.isEmpty() && null != value && !value.isEmpty() ) {
                 List<String> keys = Collections.singletonList(key);
-                return (boolean) redistemplate.execute(redisScript,keys,value);
+                return (boolean) stringRedisTemplate.execute(redisScript,keys,value);
             }
         } catch (Exception ex) {
             logger.debug("releaselock2异常!",ex);
@@ -146,6 +146,10 @@ public class RedisUtil {
      */
     public long getExpire(String key) {
         return redistemplate.getExpire(key, TimeUnit.SECONDS);
+    }
+
+    public long getStrExpire(String key) {
+        return stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
     }
 
     /**

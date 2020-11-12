@@ -52,4 +52,7 @@ public class RedisService {
     public boolean unlock(String key, String value){
         return this.redisUtil.releaselock2(key, value);
     }
+    public long exp(String key){
+        return this.redisUtil.getStrExpire(key);
+    }
 }

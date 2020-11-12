@@ -13,7 +13,7 @@
     <script src="${stc}/js/axios.min.js"></script>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <!-- 引入组件库 -->
+    <!-- 引入组件�-->
     <script src="https://unpkg.com/element-ui@2.10.1/lib/index.js"></script>
     <style>
 
@@ -27,10 +27,10 @@
         <el-col :span="24">
             <div class="grid-content ">
                 <div class="panel-heading" style="font-family: Arial;font-size:26px;">
-                    字符串操作
+                    字符串操�
                 </div>
-                <%--                <input v-model="message" placeholder="编辑我……">--%>
-                <%--                <el-input v-model="input" placeholder="请输入内容"></el-input>--%>
+                <%--                <input v-model="message" placeholder="编辑我…�>--%>
+                <%--                <el-input v-model="input" placeholder="请输入内�></el-input>--%>
                 <%--                <el-row>--%>
                 <%--                    <el-button @click="btn1" >默认按钮</el-button>--%>
 
@@ -206,9 +206,9 @@
                 $.ajax({
                     type: "POST",
                     url: "set",
-                    contentType: "application/json", //必须有
-                    //dataType: "json", //表示返回值类型，不必须
-                    data: "{ 'key': '1' }",  //相当于 //data: "{'str1':'foovalue', 'str2':'barvalue'}",
+                    contentType: "application/json", //必须�
+                    //dataType: "json", //表示返回值类型，不必�
+                    data: "{ 'key': '1' }",  //相当�//data: "{'str1':'foovalue', 'str2':'barvalue'}",
                     success: function (jsonResult) {
                         alert(jsonResult);
                     }

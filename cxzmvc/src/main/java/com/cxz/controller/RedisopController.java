@@ -129,7 +129,7 @@ public class RedisopController {
         boolean res = false;
 
         res= redisService.lock("lock","1",10000);
-        json.put("res =",String.valueOf(res));
+        json.put("lock res =",String.valueOf(res));
         return json;
     }
     @RequestMapping(value = "/unlock")
@@ -139,7 +139,7 @@ public class RedisopController {
         boolean res = false;
 
         res= redisService.unlock("lock","1");
-        json.put("res =",String.valueOf(res));
+        json.put("unlock res =",String.valueOf(res));
         return json;
     }
 

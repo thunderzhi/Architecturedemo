@@ -6,7 +6,7 @@
 <head>
 
     <%--    <link rel="stylesheet" type="text/css" href="${stc}/css/test.css" />--%>
-        <link rel="stylesheet" type="text/css" href="${stc}/css/css2.css" />
+    <link rel="stylesheet" type="text/css" href="${stc}/css/css2.css" />
     <%--    <link rel="stylesheet" type="text/css" href="<c:url value="/css/test.css"/> " />--%>
     <script type="text/javascript" src="${stc}/js/vue.min.js" ></script>
     <script src="${stc}/js/jquery.min.js"></script>
@@ -26,15 +26,15 @@
     <el-row>
         <el-col :span="24">
             <div class="grid-content ">
-                <div class="panel-heading">
+                <div class="panel-heading" style="font-family: Arial;font-size:26px;">
                     字符串操作
                 </div>
-<%--                <input v-model="message" placeholder="编辑我……">--%>
-<%--                <el-input v-model="input" placeholder="请输入内容"></el-input>--%>
-<%--                <el-row>--%>
-<%--                    <el-button @click="btn1" >默认按钮</el-button>--%>
+                <%--                <input v-model="message" placeholder="编辑我……">--%>
+                <%--                <el-input v-model="input" placeholder="请输入内容"></el-input>--%>
+                <%--                <el-row>--%>
+                <%--                    <el-button @click="btn1" >默认按钮</el-button>--%>
 
-<%--                </el-row>--%>
+                <%--                </el-row>--%>
                 <el-form :inline="true" :model="form1" class="demo-form-inline">
                     <el-form-item label="SetKey">
                         <el-input v-model="form1.key" placeholder="key"></el-input>
@@ -63,13 +63,22 @@
                         <el-button type="primary" @click="incrment(false)">-1</el-button>{{info}}
                     </el-form-item>
                 </el-form>
+                <el-form :inline="true" :model="form4" class="demo-form-inline">
+                    <el-form-item label="LOCK">
+                        <el-input v-model="form4.key" placeholder="key"></el-input>
+
+                        <el-button type="primary" @click="lock">lock</el-button>{{form4.lockres}}
+                        <el-button type="primary" @click="unlock">unlock</el-button>{{form4.unlockres}}
+                        <el-button type="primary" @click="exp">exp</el-button>TTL{{form4.ttl}}
+                    </el-form-item>
+                </el-form>
             </div>
         </el-col>
     </el-row>
     <el-row>
         <el-col :span="24">
             <div class="grid-content ">
-                <div class="panel-heading">
+                <div class="panel-heading" style="font-family: Arial;font-size:26px;">
                     List操作
                 </div>
                 <el-form :inline="true" :model="formListInline" class="demo-form-inline">
@@ -93,6 +102,7 @@
             message: 'red',
             input: 'redddd',
             info:'',
+
             form1: {
                 key: '',
                 key2: '',
@@ -103,6 +113,12 @@
             },
             form3: {
                 key: '',
+            },
+            form4: {
+                key: '',
+                ttl:'',
+                lockres:'',
+                unlockres:''
             },
             formListInline: {
                 key: '',
@@ -221,7 +237,33 @@
                     .catch(function (error) { // 请求失败处理
                         console.log(error);
                     });
-            }
+            },
+
+            lock(){
+                axios
+                    .get('lock')
+                    .then(response => (this.form4.lockres = response.data))
+                    .catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    });
+            },
+            unlock(){
+                axios
+                    .get('unlock')
+                    .then(response => (this.form4.unlockres = response.data))
+                    .catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    });
+            },
+
+            exp(){
+                axios
+                    .get('getexp')
+                    .then(response => (this.form4.ttl = response.data))
+                    .catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    });
+            },
         }
     })
 </script>

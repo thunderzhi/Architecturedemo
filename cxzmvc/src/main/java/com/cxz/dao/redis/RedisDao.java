@@ -32,4 +32,8 @@ public interface RedisDao {
     boolean unlock(String key, String value);
 
     long exp(String key);
+
+    String getStr(String key);
+
+
 }

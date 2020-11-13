@@ -1,6 +1,7 @@
 package com.cxz.controller;
 
-import com.cxz.impl.RedisService;
+
+import com.cxz.impl.redis.RedisDaoImpl;
 import com.cxz.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +30,7 @@ import java.util.Map;
 public class IndexController {
     private static final Logger logger = Logger.getLogger(IndexController.class);
     @Autowired
-    public RedisService redisService;
+    public RedisDaoImpl redisDaoImpl;
 
     @RequestMapping("/index")
     public ModelAndView index()
@@ -58,7 +59,7 @@ public class IndexController {
         String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        //redisService.redisUtil2.set(key,dateStr);
+        //RedisDaoImpl.redisUtil2.set(key,dateStr);
         json.put("success", key);
         logger.debug("getWelcome is executed!");
         return json;
@@ -71,7 +72,7 @@ public class IndexController {
         //String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        Object v = redisService.redisUtil.get(k);
+        Object v = redisDaoImpl.redisUtil.get(k);
         json.put("success", v);
         return json;
     }
@@ -89,7 +90,7 @@ public class IndexController {
 
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        boolean b = redisService.redisUtil.setStr(k,jsonstr);
+        boolean b = redisDaoImpl.redisUtil.setStr(k,jsonstr);
         logger.debug("add is executed!");
         json.put("success", String.valueOf(b));
         return json;
@@ -101,7 +102,7 @@ public class IndexController {
 
         String jsonstr = "";
         try {
-            jsonstr = redisService.redisUtil.getStr(k);
+            jsonstr = redisDaoImpl.redisUtil.getStr(k);
         } catch (Exception e) {
             e.printStackTrace();
             json.put("fail", "fail");

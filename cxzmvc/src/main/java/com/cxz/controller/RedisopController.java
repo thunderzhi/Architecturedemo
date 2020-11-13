@@ -1,6 +1,7 @@
 package com.cxz.controller;
 
 import com.cxz.impl.RedisService;
+import com.cxz.impl.redis.RedisDaoImpl;
 import com.cxz.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +29,7 @@ import java.util.Map;
 public class RedisopController {
     private static final Logger logger = Logger.getLogger(RedisopController.class);
     @Autowired
-    public RedisService redisService;
+    public RedisDaoImpl redisDaoImpl;
 
     @RequestMapping("/index")
     public ModelAndView index2(Model model) {
@@ -51,7 +52,7 @@ public class RedisopController {
 
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-         boolean b = redisService.setStr(key,u);
+         boolean b = redisDaoImpl.setStr(key,u);
         logger.debug("set is executed!"+key);
 
         json.put("success", String.valueOf(b));
@@ -68,7 +69,7 @@ public class RedisopController {
         u.setAge(dateStr);
         u.setName(key);
 
-        boolean b = redisService.setStr(key,u,10);
+        boolean b = redisDaoImpl.setStr(key,u,10);
         logger.debug("addexpstr is executed!"+key);
         json.put("success", String.valueOf(b));
 
@@ -83,7 +84,7 @@ public class RedisopController {
         HashMap json = new HashMap();
         String jsonstr = Long.toString(System.currentTimeMillis()/1000L);
         try {
-            jsonstr = redisService.redisUtil.getStr(key);
+            jsonstr = redisDaoImpl.redisUtil.getStr(key);
         } catch (Exception e) {
             e.printStackTrace();
             json.put("fail", "fail");
@@ -105,10 +106,10 @@ public class RedisopController {
         try {
             if (isincr)
             {
-                res= redisService.incr(key,1);
+                res= redisDaoImpl.incr(key,1);
             }
             else{
-                res= redisService.decr(key,1);
+                res= redisDaoImpl.decr(key,1);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,7 +127,7 @@ public class RedisopController {
     public Map<String, String> lock(){
         HashMap json = new HashMap();
         boolean res = false;
-        res= redisService.lock("lock","1",20000);
+        res= redisDaoImpl.lock("lock","1",20000);
         json.put("lock res =",String.valueOf(res));
         return json;
     }
@@ -134,7 +135,7 @@ public class RedisopController {
     public Map<String, String> unlock(){
         HashMap json = new HashMap();
         boolean res = false;
-        res= redisService.unlock("lock","1");
+        res= redisDaoImpl.unlock("lock","1");
         json.put("unlock res =",String.valueOf(res));
         return json;
     }
@@ -143,7 +144,7 @@ public class RedisopController {
     public Map<String, String> getexp(){
         HashMap json = new HashMap();
         long res = 0;
-        res= redisService.exp("lock");
+        res= redisDaoImpl.exp("lock");
         json.put("res =",String.valueOf(res));
         return json;
     }

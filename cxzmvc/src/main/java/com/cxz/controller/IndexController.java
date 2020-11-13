@@ -1,6 +1,7 @@
 package com.cxz.controller;
 
 
+import com.cxz.dao.redis.RedisDao;
 import com.cxz.impl.redis.RedisDaoImpl;
 import com.cxz.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,7 +31,7 @@ import java.util.Map;
 public class IndexController {
     private static final Logger logger = Logger.getLogger(IndexController.class);
     @Autowired
-    public RedisDaoImpl redisDaoImpl;
+    public RedisDao redisDao;
 
     @RequestMapping("/index")
     public ModelAndView index()
@@ -72,7 +73,7 @@ public class IndexController {
         //String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        Object v = redisDaoImpl.redisUtil.get(k);
+        Object v = redisDao.getStr(k);
         json.put("success", v);
         return json;
     }
@@ -90,7 +91,7 @@ public class IndexController {
 
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        boolean b = redisDaoImpl.redisUtil.setStr(k,jsonstr);
+        boolean b = redisDao.setStr(k,jsonstr);
         logger.debug("add is executed!");
         json.put("success", String.valueOf(b));
         return json;
@@ -102,7 +103,7 @@ public class IndexController {
 
         String jsonstr = "";
         try {
-            jsonstr = redisDaoImpl.redisUtil.getStr(k);
+            jsonstr = redisDao.getStr(k);
         } catch (Exception e) {
             e.printStackTrace();
             json.put("fail", "fail");

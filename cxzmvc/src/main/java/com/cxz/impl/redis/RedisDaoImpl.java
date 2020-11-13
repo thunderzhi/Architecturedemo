@@ -64,4 +64,8 @@ public class RedisDaoImpl implements RedisDao {
     public long exp(String key){
         return this.redisUtil.getStrExpire(key);
     }
+    @Override
+    public String getStr(String key) {
+        return this.redisUtil.getStr(key);
+    }
 }

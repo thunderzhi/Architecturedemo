@@ -1,6 +1,6 @@
 package com.cxz.controller;
 
-import com.cxz.impl.RedisService;
+import com.cxz.service.RedisService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;

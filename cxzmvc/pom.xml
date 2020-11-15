@@ -90,6 +90,13 @@
 <!--      <artifactId>utils</artifactId>-->
 <!--      <version>0.0.1-SNAPSHOT</version>-->
 <!--    </dependency>-->
+    <!-- https://mvnrepository.com/artifact/org.apache.rocketmq/rocketmq-client -->
+    <dependency>
+      <groupId>org.apache.rocketmq</groupId>
+      <artifactId>rocketmq-client</artifactId>
+      <version>4.4.0</version>
+    </dependency>
+ 
   </dependencies>
 
   <build>

@@ -126,4 +126,19 @@ public class RedisopController {
         json.put("res =",String.valueOf(res));
         return json;
     }
+
+    @RequestMapping(value = "/addhash")
+    public Map<String, String> addhash(String k){
+        HashMap json = new HashMap();
+        User user = new User();
+        user.setAge(Long.toString(System.currentTimeMillis()/1000L));
+        user.setName("TTTTT");
+
+        long res = 0;
+        res= redisService.exp("lock");
+        json.put("res =",String.valueOf(res));
+        return json;
+    }
+
+
 }

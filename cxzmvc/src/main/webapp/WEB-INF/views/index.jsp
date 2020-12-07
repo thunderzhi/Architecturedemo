@@ -8,8 +8,8 @@
 
 <body>
 <h2>Hello World!3333</h2>
-<script type="text/javascript" src="js/vue.min.js" ></script>
-<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/vue.min.js" ></script>
+<script src="../../js/jquery.min.js"></script>
 
 
 

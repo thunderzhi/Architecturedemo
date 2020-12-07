@@ -30,10 +30,14 @@
     <bean id="defaultViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
 
-        <property name="prefix" value="/"/><!--设置JSP文件的目录位置-->
+        <property name="prefix" value="/WEB-INF/views/"/><!--设置JSP文件的目录位置-->
         <property name="suffix" value=".jsp"/>
         <property name="exposeContextBeansAsAttributes" value="true"/>
     </bean>
-
+    <!-- 文件上传,id必须设置为multipartResolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置文件上传大小 5M -->
+        <property name="maxUploadSize" value="5000000" />
+    </bean>
 
 </beans>

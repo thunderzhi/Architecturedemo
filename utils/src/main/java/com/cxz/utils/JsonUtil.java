@@ -5,6 +5,10 @@ import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,5 +68,14 @@ public class JsonUtil {
                 new TypeReference<Map<K, V>>(keyType, valueType) {
                 });
     }
-
+    public static String streamToStr(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) != -1) {
+            result.write(buffer, 0, length);
+        }
+        String str = result.toString(StandardCharsets.UTF_8.name());
+        return str;
+    }
 }

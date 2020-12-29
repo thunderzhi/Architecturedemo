@@ -14,12 +14,12 @@
         />
 
         <!--targetProject：文件保存的路径，注意如果是项目是module，建议使用绝对路径       -->
-        <javaModelGenerator targetPackage="com.cxz.pojo" targetProject="src/main/java"/>
+        <javaModelGenerator targetPackage="com.cxz.pojo" targetProject="D:\dev\project\ArchitectureProj\Architecturedemo\demogen\src\main\java"/>
 
 
-        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources" />
+        <sqlMapGenerator targetPackage="mapper" targetProject="D:\dev\project\ArchitectureProj\Architecturedemo\demogen\src\main\resources" />
         <!--type="XMLMAPPER"，如果该属性没有或者写错会出现Cannot instantiate object of type null        -->
-        <javaClientGenerator targetPackage="com.cxz.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
+        <javaClientGenerator targetPackage="com.cxz.mapper" targetProject="D:\dev\project\ArchitectureProj\Architecturedemo\demogen\src\main\java" type="XMLMAPPER"/>
         <table tableName="T_User" />
 
     </context>

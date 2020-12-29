@@ -1,4 +1,4 @@
-package com.cxz;
+package com.cxz.demogen;
 
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
@@ -6,6 +6,7 @@ import org.mybatis.generator.config.xml.ConfigurationParser;
 import org.mybatis.generator.exception.InvalidConfigurationException;
 import org.mybatis.generator.exception.XMLParserException;
 import org.mybatis.generator.internal.DefaultShellCallback;
+import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +26,8 @@ public class mybatisGenerator {
         System.out.println(System.getProperty("user.dir"));
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
-        File configFile = new File(" /src/main/resources/mybatis-generator.xml");
+        File configFile = ResourceUtils.getFile("classpath:mybatis-generator.xml");
+        //File configFile = new File("mybatis-generator.xml");
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(configFile);
         DefaultShellCallback callback = new DefaultShellCallback(overwrite);

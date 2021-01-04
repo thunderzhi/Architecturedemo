@@ -20,8 +20,7 @@
 
     <bean class="com.cxz.config.SwaggerConfig" />
 
-    <mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/" />
-    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/" />
+
 
     <import resource="redis-context.xml"/>
     <import resource="druid.xml"/>

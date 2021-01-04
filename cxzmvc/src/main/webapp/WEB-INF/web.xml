@@ -73,6 +73,9 @@
            2、拦截/，例如：/user/add,可以实现现在很流行的REST风格。很多互联网类型的应用很喜欢这种风格的URL。弊端：会导致静态文件（jpg,js,css）被拦截后不能正常显示。
         -->
         <url-pattern>/</url-pattern><!--会拦截URL中带“/”的请求。-->
+
+        <url-pattern>/swagger/*</url-pattern>
+        <url-pattern>/api-docs</url-pattern>
     </servlet-mapping>
     <!-- 配置 Druid 监控信息显示页面 访问地址 <a href="http://localhost:8080/druid/index.html"> -->
     <servlet>

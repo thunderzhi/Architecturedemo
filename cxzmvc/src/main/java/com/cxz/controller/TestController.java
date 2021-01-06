@@ -3,6 +3,7 @@ package com.cxz.controller;
 import com.cxz.impl.TestService;
 import com.cxz.utils.JsonUtil;
 import com.cxz.utils.StringUtils;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import java.util.Map;
  * @Description:
  * @date 2020/11/2 11:05
  */
+@Api(tags = "TEST")
 @RestController
 @RequestMapping("/test")
 public class TestController {
@@ -33,6 +35,7 @@ public class TestController {
     /*
     get content from request
      */
+
     public String testreq() throws IOException {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String s = StringUtils.streamToStr(request.getInputStream());

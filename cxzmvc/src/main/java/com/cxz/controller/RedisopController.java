@@ -5,6 +5,8 @@ import com.cxz.model.User;
 import com.cxz.service.RedisService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import java.util.Map;
  * @Description:
  * @date 2020/11/5 16:38
  */
+@Api(tags = "Redisop")
 @RestController
 @RequestMapping("/redis")
 public class RedisopController {
@@ -39,6 +42,7 @@ public class RedisopController {
     /*
      * 添加key*/
     @RequestMapping(value = "/set", method = {RequestMethod.POST,RequestMethod.GET})
+    @ApiOperation(httpMethod = "GET", value = "个人信息")//swagger 当前接口注解
     //@ResponseBody
     public Map<String, String> addkey(@RequestParam("key")  String key) throws JsonProcessingException {
         HashMap json = new HashMap();

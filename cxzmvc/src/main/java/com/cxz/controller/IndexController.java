@@ -6,6 +6,7 @@ import com.cxz.impl.redis.RedisDaoImpl;
 import com.cxz.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.Api;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -27,6 +28,7 @@ import java.util.Map;
  * @date 2020/10/26 15:08
  */
 @RestController
+@Api(tags = "Index")
 @RequestMapping("/")
 public class IndexController {
     private static final Logger logger = Logger.getLogger(IndexController.class);

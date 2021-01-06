@@ -3,6 +3,7 @@ package com.cxz.config;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -22,23 +23,22 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableWebMvc
 @EnableSwagger2
+@ComponentScan(basePackages = {"com.cxz.controller"})
 public class SwaggerConfig{
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()            .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
+                .select() .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-                .build()
-                .apiInfo(apiInfo());
+                 .build();
     }
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("监管平台-国际版API")
+                .title(" cxz API")
                 .description("http不对外开放接口")
                 .version("1.0.0")
                 .termsOfServiceUrl("http://xxx.xxx.com")
-                .license("假装这里有license")
-                .licenseUrl("http://xxx.xxx.com")
+
                 .build();
     }
 

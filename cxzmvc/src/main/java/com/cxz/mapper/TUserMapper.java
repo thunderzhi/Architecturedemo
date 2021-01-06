@@ -3,10 +3,12 @@ package com.cxz.mapper;
 
 import com.cxz.model.TUser;
 import com.cxz.model.TUserExample;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Mapper
 public interface TUserMapper {
     long countByExample(TUserExample example);
 
@@ -29,4 +31,8 @@ public interface TUserMapper {
     int updateByPrimaryKeySelective(TUser record);
 
     int updateByPrimaryKey(TUser record);
+
+    @SelectProvider(type =UserQueryManager.class,method = "selectAll")
+    @ResultMap("BaseResultMap")
+    List<TUser> selectAll();
 }

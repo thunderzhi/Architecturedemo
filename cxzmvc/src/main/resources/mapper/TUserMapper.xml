@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cxz.mapper.TUserMapper">
-  <resultMap id="BaseResultMap" type="com.cxz.pojo.TUser">
+  <resultMap id="BaseResultMap" type="com.cxz.model.TUser">
     <id column="Id" jdbcType="BIGINT" property="id" />
     <result column="Name" jdbcType="VARCHAR" property="name" />
     <result column="Age" jdbcType="INTEGER" property="age" />
@@ -68,7 +68,7 @@
   <sql id="Base_Column_List">
     Id, Name, Age, Birth
   </sql>
-  <select id="selectByExample" parameterType="com.cxz.pojo.TUserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.cxz.model.TUserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -92,19 +92,19 @@
     delete from T_User
     where Id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.cxz.pojo.TUserExample">
+  <delete id="deleteByExample" parameterType="com.cxz.model.TUserExample">
     delete from T_User
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.cxz.pojo.TUser">
+  <insert id="insert" parameterType="com.cxz.model.TUser">
     insert into T_User (Id, Name, Age, 
       Birth)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
       #{birth,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.cxz.pojo.TUser">
+  <insert id="insertSelective" parameterType="com.cxz.model.TUser">
     insert into T_User
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -135,7 +135,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.cxz.pojo.TUserExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.cxz.model.TUserExample" resultType="java.lang.Long">
     select count(*) from T_User
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -171,7 +171,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cxz.pojo.TUser">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cxz.model.TUser">
     update T_User
     <set>
       <if test="name != null">
@@ -186,7 +186,7 @@
     </set>
     where Id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cxz.pojo.TUser">
+  <update id="updateByPrimaryKey" parameterType="com.cxz.model.TUser">
     update T_User
     set Name = #{name,jdbcType=VARCHAR},
       Age = #{age,jdbcType=INTEGER},

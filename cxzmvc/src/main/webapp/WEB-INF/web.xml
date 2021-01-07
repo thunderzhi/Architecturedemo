@@ -50,14 +50,31 @@
     <display-name>SpringMVCCXZ</display-name>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/applicationContext.xml</param-value>
+        <param-value>classpath:applicationContext.xml</param-value>
     </context-param>
+
+<!--    <context-param>-->
+<!--        <param-name>spring.profiles.active</param-name>-->
+<!--        <param-value>dev</param-value>-->
+<!--    </context-param>-->
+<!--    <context-param>-->
+<!--        <param-name>spring.profiles.default</param-name>-->
+<!--        <param-value>dev</param-value>-->
+<!--    </context-param>-->
+<!--    <context-param>-->
+<!--        <param-name>spring.liveBeansView.mbeanDomain</param-name>-->
+<!--        <param-value>dev</param-value>-->
+<!--    </context-param>-->
     <!--使用Spring MVC,配置`DispatcherServlet`是第一步。`DispatcherServlet`是一个Servlet,,所以可以配置多个`DispatcherServlet`；
    `DispatcherServlet`是前置控制器，配置在web.xml文件中的。拦截匹配的请求，Servlet拦截匹配规则要自已定义，把拦截下来的请求，依据某某规则分发到目标Controller(我们写的Action)来处理。
    -->
     <servlet>
         <servlet-name>SpringMVCCXZ</servlet-name><!--在`DispatcherServlet`的初始化过程中，框架会在web应用的 WEB-INF文件夹下寻找名为[servlet-name]-servlet.xml 的配置文件，生成文件中定义的bean。-->
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:SpringMVCCXZ-servlet.xml</param-value>
+        </init-param>
         <!--指明了配置文件的文件名，不使用默认配置文件名，而使用dispatcher-servlet.xml配置文件。-->
         <load-on-startup>1</load-on-startup>
     </servlet>

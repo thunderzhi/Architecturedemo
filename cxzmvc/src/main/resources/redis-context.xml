@@ -12,18 +12,18 @@
             http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <!-- scanner redis properties  -->
-    <context:property-placeholder location="/WEB-INF/redis.properties" />
+<!--    <context:property-placeholder location="classpath:redis.properties" />-->
 
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <!--最大空闲连接数-->
-        <property name="maxIdle" value="${redis.maxIdle}"></property>
-        <property name="maxWaitMillis" value="${redis.maxWait}"></property>
-        <property name="maxTotal" value="${redis.maxActive}"></property>
+        <property name="maxIdle" value="300"></property>
+        <property name="maxWaitMillis" value="600"></property>
+        <property name="maxTotal" value="1000"></property>
     </bean>
     <bean id="connectionFactory"
           class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-          p:host-name="${redis.host}"
-          p:port="${redis.port}"
+          p:host-name="127.0.0.1"
+          p:port="6379"
           p:poolConfig-ref="poolConfig"
           p:use-pool="true"/>
 

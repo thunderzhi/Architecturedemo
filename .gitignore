@@ -56,3 +56,4 @@ build/
 ### VS Code ###
 .vscode/
 
+/cxzmvc/src/main/resources/db.properties

@@ -13,9 +13,9 @@
             http://www.springframework.org/schema/aop/spring-aop.xsd
             http://www.springframework.org/schema/mvc
             http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
     <!-- Load properties configuration file. -->
-    <context:property-placeholder
-            location="classpath:db.properties" />
+
     <context:annotation-config/>
     <context:component-scan base-package="com.cxz">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
@@ -23,7 +23,6 @@
     <!-- Autowired Annotaion Bean -->
     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
     <bean class="com.cxz.config.SwaggerConfig" />
-
 
     <!-- if you want to only load a single spring configuration file, you could import all other files here. -->
     <import resource="SpringMVCCXZ-servlet.xml" />
@@ -64,4 +63,5 @@
     <!-- 开启事务注解@Transactional 支持 -->
     <tx:annotation-driven/>
 <!--    <bean id="xmlMapper" parent="objectMapper" p:createXmlMapper="true"/>-->
+
 </beans>

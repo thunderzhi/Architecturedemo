@@ -4,6 +4,7 @@ package com.cxz;
 
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import org.apache.commons.lang3.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
@@ -69,23 +70,36 @@ public class mybatisGenerator {
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/codegenerator/src/main/java");
         gc.setAuthor("cxz");
+        gc.setFileOverride(true);
+        gc.setActiveRecord(false);
+        gc.setEnableCache(false);// XML 二级缓存
+        gc.setBaseResultMap(true);// XML ResultMap
+        gc.setBaseColumnList(true);// XML columList
         gc.setOpen(false);
+        // 自定义文件命名，注意 %s 会自动填充表实体属性！
+        gc.setMapperName("%sMapper");
+        gc.setXmlName("%sMapper");
+        gc.setServiceName("I%sService");
+        gc.setServiceImplName("%sServiceImpl");
+        gc.setControllerName("%sController");
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
         mpg.setGlobalConfig(gc);
-
-        // 数据源配置
+         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql:// 3306/T_TestDB?useUnicode=true&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://3306/T_TestDB?useUnicode=true&characterEncoding=utf8");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("  ");
+        dsc.setPassword("");
         mpg.setDataSource(dsc);
 
         // 包配置
         PackageConfig pc = new PackageConfig();
         //pc.setModuleName(scanner("模块名"));
         pc.setParent("com.cxz");
+        pc.setController("controller"); // 这里是控制器包名，默认web
+        pc.setEntity("model");
+        pc.setXml("xml");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -147,18 +161,18 @@ public class mybatisGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
+        //strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         // 公共父类
-        strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
+        //strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
         // 写于父类中的公共字段
         strategy.setSuperEntityColumns("id");
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
         mpg.setStrategy(strategy);
-        mpg.setTemplateEngine(new FreemarkerTemplateEngine());
+        mpg.setTemplateEngine(new VelocityTemplateEngine());
         mpg.execute();
     }
 }

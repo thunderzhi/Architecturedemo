@@ -3,6 +3,7 @@ package com.cxz.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.cxz.model.Order;
+import org.apache.ibatis.annotations.Mapper;
 
 
 /**
@@ -13,6 +14,8 @@ import com.cxz.model.Order;
  * @author cxz
  * @since 2021-01-17
  */
-public interface OrderMapper extends BaseMapper<Order> {
+@Mapper
+public interface OrderMapper extends BaseMapper<Order>{
 
-        }
+
+}

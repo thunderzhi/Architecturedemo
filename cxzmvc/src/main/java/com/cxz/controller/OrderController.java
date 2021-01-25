@@ -40,12 +40,18 @@ public class OrderController {
         @RequestMapping(value = "/getOrderList", method = {RequestMethod.GET})
         @ApiOperation(httpMethod = "GET", value = "getOrderList")//swagger 当前接口注解
         public Map<String, List<Order>> getOrderList(OrderRequest req){
-                LogUtil.WriteLog(MessageFormat.format("request: {0}",  JsonUtil.toJson(req)));
-                QueryWrapper<Order> qw = new QueryWrapper<>();
-                qw.eq("OrderNo",req.getOrderno());
-                List<Order> orderList = orderService.getOrderList(qw);
-                HashMap<String, List<Order>> map = new HashMap<>(6);
-                
+                List<Order> orderList = null;
+                HashMap<String, List<Order>> map = null;
+                try {
+                        LogUtil.WriteLog(MessageFormat.format("request: {0}",  JsonUtil.toJson(req)));
+                        QueryWrapper<Order> qw = new QueryWrapper<>();
+                        qw.eq("OrderNo",req.getOrderno());
+                        orderList = orderService.getOrderList(qw);
+                        map = new HashMap<>(6);
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+
                 map.put("order",orderList);
                 return map;
         }

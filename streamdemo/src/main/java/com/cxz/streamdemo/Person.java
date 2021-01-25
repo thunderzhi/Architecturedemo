@@ -33,5 +33,11 @@ public class Person {
 
     private String name;
     public int no;
-
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", no=" + no +
+                '}';
+    }
 }

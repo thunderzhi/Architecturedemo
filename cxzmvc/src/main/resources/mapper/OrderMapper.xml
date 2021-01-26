@@ -8,10 +8,11 @@
         <result column="OrderNo" property="orderno" />
         <result column="CreateTime" property="createtime" />
         <result column="UserName" property="username" />
+        <result column="DataFlag" property="dataflag" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        Id,OrderNo, CreateTime, UserName
+        Id,OrderNo, CreateTime,DataFlag, UserName
     </sql>
 </mapper>

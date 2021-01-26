@@ -3,9 +3,7 @@ package com.cxz.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.cxz.model.Order;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -23,6 +21,11 @@ public interface OrderMapper extends BaseMapper<Order>{
 
 
     @SelectProvider(type =OrderQueryManager.class,method = "selectAll")
-    @ResultMap("BaseResultMap")
+//    @ResultMap("BaseResultMap")
+    @Results({@Result(column = "Id",property = "Id"),
+            @Result(column = "CreateTime",property = "createtime"),
+            @Result(column = "DataFlag",property = "dataflag"),
+            @Result(column = "OrderNo",property = "orderno")
+    })
     List<Order> selectAll();
 }

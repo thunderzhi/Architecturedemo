@@ -2,10 +2,12 @@ package com.cxz.model;
 
 import com.baomidou.mybatisplus.annotation.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.codehaus.groovy.runtime.dgmimpl.arrays.IntegerArrayGetAtMetaMethod;
 
 /**
  * <p>
@@ -30,7 +32,11 @@ public class Order implements Serializable {
     private String orderno;
 
     @TableField("CreateTime")
-    private Date createtime;
+    private LocalDateTime createtime;
+
+    @TableField("DataFlag")
+    private Integer dataflag;
+
 
     @TableField("UserName")
     private String username;

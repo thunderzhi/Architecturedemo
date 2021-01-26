@@ -16,7 +16,7 @@ public class OrderQueryManager {
 
     public String selectAll(){
         String sql = new SQL() {{
-            SELECT("Id, OrderNo, CreateTime , UserName");
+            SELECT("Id, OrderNo, CreateTime ,DataFlag, UserName");
             FROM("T_Order");
         }}.toString();
         return sql;

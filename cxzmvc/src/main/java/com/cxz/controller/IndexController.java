@@ -1,11 +1,12 @@
 package com.cxz.controller;
 
+import com.cxz.impl.RedisService;
+import com.cxz.impl.TestService;
 
 import com.cxz.dao.redis.RedisDao;
 import com.cxz.impl.redis.RedisDaoImpl;
 import com.cxz.model.User;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.swagger.annotations.Api;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,24 @@ import java.util.Map;
  * @date 2020/10/26 15:08
  */
 @RestController
+@RequestMapping("/home")
 @Api(tags = "Index")
-@RequestMapping("/")
+
 public class IndexController {
     private static final Logger logger = Logger.getLogger(IndexController.class);
     @Autowired
-    public RedisDao redisDao;
+    public RedisService redisService;
 
     @RequestMapping("/index")
-    public ModelAndView index()
-    {
-        return new ModelAndView("index");
+    public String index() {
+        return "index";
+    }
+
+    @RequestMapping("/index2")
+    public ModelAndView index2(Model model) {
+        model.addAttribute("msg","Hello Spring MVC!");
+
+        return new ModelAndView("index2");
     }
 
     @RequestMapping("/para")
@@ -62,7 +70,7 @@ public class IndexController {
         String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        //RedisDaoImpl.redisUtil2.set(key,dateStr);
+        //redisService.redisUtil2.set(key,dateStr);
         json.put("success", key);
         logger.debug("getWelcome is executed!");
         return json;
@@ -75,45 +83,23 @@ public class IndexController {
         //String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        Object v = redisDao.getStr(k);
+        Object v = redisService.redisUtil2.get(k);
         json.put("success", v);
         return json;
     }
 
     @RequestMapping("/add")
     //@ResponseBody
-    public Map<String, String> adduser(String k) throws JsonProcessingException {
+    public Map<String, String> adduser(String k){
         User u = new User();
         HashMap json = new HashMap();
         String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         u.setAge(dateStr);
         u.setName(k);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonstr = objectMapper.writeValueAsString(u);
-
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        boolean b = redisDao.setStr(k,jsonstr);
-        logger.debug("add is executed!");
+        boolean b = redisService.redisUtil2.set(k,u);
         json.put("success", String.valueOf(b));
         return json;
     }
-
-    @RequestMapping("/get")
-    public Map<String, Object> getk(String k) throws IOException {
-        HashMap json = new HashMap();
-
-        String jsonstr = "";
-        try {
-            jsonstr = redisDao.getStr(k);
-        } catch (Exception e) {
-            e.printStackTrace();
-            json.put("fail", "fail");
-        }
-        ObjectMapper objectMapper = new ObjectMapper();
-        User obj = objectMapper.readValue(jsonstr,User.class);
-        json.put("success", obj);
-        return json;
-    }
-
 }

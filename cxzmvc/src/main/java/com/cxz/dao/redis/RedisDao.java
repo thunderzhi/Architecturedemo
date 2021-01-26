@@ -1,6 +1,6 @@
 package com.cxz.dao.redis;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,10 +15,10 @@ public interface RedisDao {
     boolean set(String key, Object value);
 
     /*设置字符串kv*/
-    boolean setStr(String key, Object value) throws JsonProcessingException;
+    boolean setStr(String key, Object value) ;
 
     /*设置字符串kv,超时时间*/
-    boolean setStr(String key, Object value, long time) throws JsonProcessingException;
+    boolean setStr(String key, Object value, long time) ;
 
     /*设置原子自增减*/
     long incr(String key, long delta);

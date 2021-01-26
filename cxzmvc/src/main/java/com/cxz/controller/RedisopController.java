@@ -3,8 +3,7 @@ package com.cxz.controller;
 import com.cxz.impl.redis.RedisDaoImpl;
 import com.cxz.model.User;
 import com.cxz.service.RedisService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
@@ -44,7 +43,7 @@ public class RedisopController {
     @RequestMapping(value = "/set", method = {RequestMethod.POST,RequestMethod.GET})
     @ApiOperation(httpMethod = "GET", value = "个人信息")//swagger 当前接口注解
     //@ResponseBody
-    public Map<String, String> addkey(@RequestParam("key")  String key) throws JsonProcessingException {
+    public Map<String, String> addkey(@RequestParam("key")  String key)   {
         HashMap json = new HashMap();
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
@@ -56,7 +55,7 @@ public class RedisopController {
     /*
      * 添加带有过期时间key*/
     @RequestMapping(value = "/expstr", method = {RequestMethod.POST})
-    public Map<String, String> addexpstr(@RequestParam("key")  String key) throws JsonProcessingException {
+    public Map<String, String> addexpstr(@RequestParam("key")  String key)   {
         HashMap json = new HashMap();
         User u = new User();
         u.setName(key);
@@ -69,7 +68,7 @@ public class RedisopController {
      * 获取key value*/
     @RequestMapping(value = "/getkey", method = {RequestMethod.POST,RequestMethod.GET})
     //@ResponseBody
-    public Map<String, String> getkey(@RequestParam("key")  String key) throws JsonProcessingException {
+    public Map<String, String> getkey(@RequestParam("key")  String key)  {
         User u = new User();
         HashMap json = new HashMap();
         String jsonstr ="";
@@ -90,7 +89,7 @@ public class RedisopController {
     @RequestMapping(value = "/incrment", method = {RequestMethod.POST})
     //@ResponseBody
     public Map<String, String> incrment(@RequestParam("key")  String key,@RequestParam("isincr")  boolean isincr)
-            throws JsonProcessingException {
+             {
         HashMap json = new HashMap();
         String jsonstr = Long.toString(System.currentTimeMillis()/1000L);
         long res=0;

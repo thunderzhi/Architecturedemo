@@ -2,8 +2,9 @@ package com.cxz.impl.redis;
 
 import com.cxz.dao.redis.RedisDao;
 import com.cxz.util.RedisUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+
+import com.cxz.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,17 +26,18 @@ public class RedisDaoImpl implements RedisDao {
     }
     /*设置字符串kv*/
     @Override
-    public boolean setStr(String key, Object value) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonstr = objectMapper.writeValueAsString(value);
+    public boolean setStr(String key, Object value)  {
+        String jsonstr = JsonUtil.toJson(value);
+
         return this.redisUtil.setStr(  key, jsonstr);
     }
 
     /*设置字符串kv,超时时间*/
     @Override
-    public boolean setStr(String key, Object value, long time) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonstr = objectMapper.writeValueAsString(value);
+    public boolean setStr(String key, Object value, long time)  {
+
+        String jsonstr = JsonUtil.toJson(value);
+
         return this.redisUtil.setStr(  key, jsonstr,time);
     }
 

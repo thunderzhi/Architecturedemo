@@ -1,14 +1,12 @@
 package com.cxz.util;
 
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,6 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -29,32 +26,13 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/10/30 16:40
  */
 @Component
-public class RedisUtil {
+public class RedisUtil2 {
     @Autowired
     private RedisTemplate redistemplate;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    private static final String lockStr ="local key = KEYS[1]\n" +
-            "local content = ARGV[1]\n" +
-            "local ttl = tonumber(ARGV[2])\n" +
-            "local lockSet = redis.call('setnx', key, content)\n" +
-            "if lockSet == 1 then\n" +
-            "    return redis.call('PEXPIRE', key, ttl)\n" +
-            "else\n" +
-            "    return 0\n" +
-            "end\n";
 
-    private static final String unlockStr ="local key = KEYS[1]\n" +
-            "local content = ARGV[1]\n" +
-            "local value = redis.call('get', key)\n" +
-            "if value == content then\n" +
-            "    return redis.call('del', key)\n" +
-            "else\n" +
-            "    return 0\n" +
-            "end";
-
-    private static final Logger logger = Logger.getLogger(RedisUtil.class);
     //region COMMON
     /**
      * 尝试获取分布式锁
@@ -72,36 +50,6 @@ public class RedisUtil {
                     Expiration.from(expire, TimeUnit.SECONDS), RedisStringCommands.SetOption.SET_IF_ABSENT);
             return result;
         });
-    }
-    public synchronized boolean lock2(String key, String value, long milliseconds){
-        try {
-            DefaultRedisScript<Boolean> redisScript = new
-                    DefaultRedisScript<Boolean>(lockStr,Boolean.class);
-
-            if (null != key && !key.isEmpty() && null != value && !value.isEmpty() && milliseconds > 0) {
-                List<String> keys = Collections.singletonList(key);
-
-                return (boolean) stringRedisTemplate.execute(redisScript,keys,value,String.valueOf(milliseconds));
-            }
-        } catch (Exception ex) {
-            logger.debug("lock2异常!",ex);
-        }
-        return false;
-    }
-
-    public synchronized boolean releaselock2(String key, String value){
-        try {
-            DefaultRedisScript<Boolean> redisScript = new
-                    DefaultRedisScript<Boolean>(unlockStr,Boolean.class);
-
-            if (null != key && !key.isEmpty() && null != value && !value.isEmpty() ) {
-                List<String> keys = Collections.singletonList(key);
-                return (boolean) stringRedisTemplate.execute(redisScript,keys,value);
-            }
-        } catch (Exception ex) {
-            logger.debug("releaselock2异常!",ex);
-        }
-        return false;
     }
 
     /**
@@ -151,10 +99,6 @@ public class RedisUtil {
         return redistemplate.getExpire(key, TimeUnit.SECONDS);
     }
 
-    public long getStrExpire(String key) {
-        return stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
-    }
-
     /**
      * 判断key是否存在
      *
@@ -199,9 +143,6 @@ public class RedisUtil {
         return key == null ? null : redistemplate.opsForValue().get(key);
     }
 
-    public String getStr(String key) {
-        return key == null ? null : stringRedisTemplate.opsForValue().get(key);
-    }
     /**
      * 普通缓存放入
      *
@@ -214,19 +155,10 @@ public class RedisUtil {
             redistemplate.opsForValue().set(key, value);
             return true;
         } catch (Exception e) {
-            logger.debug("保存缓存异常!",e);
+            // log.warn("保存缓存异常", e);
             return false;
         }
 
-    }
-    public boolean setStr(String key, String value){
-        try {
-            stringRedisTemplate.opsForValue().set(key,value);
-            return true;
-        } catch (Exception e) {
-            logger.debug("保存缓存异常!",e);
-            return false;
-        }
     }
 
     /**
@@ -251,19 +183,6 @@ public class RedisUtil {
         }
     }
 
-    public boolean setStr(String key, String value, long time) {
-        try {
-            if (time > 0) {
-                stringRedisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
-            } else {
-                set(key, value);
-            }
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
     /**
      * 递增
      *

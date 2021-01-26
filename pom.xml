@@ -27,7 +27,9 @@
         <module>streamdemo</module>
         <module>utils</module>
         <module>cxzmvc</module>
+        <module>demospringboot</module>
         <module>cloudqueue</module>
+
     </modules>
 
     <properties>

@@ -3,9 +3,8 @@ package com.cxz.service;
 
 import com.cxz.dao.redis.RedisDao;
 import com.cxz.model.User;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.nashorn.internal.ir.ReturnNode;
+
+import com.cxz.utils.JsonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,19 +26,19 @@ public class RedisService {
     @Autowired
     RedisDao redisDao;
 
-    public boolean addkey(String key) throws JsonProcessingException {
+    public boolean addkey(String key)   {
         User u = new User();
         String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         u.setAge(dateStr);
         u.setName(key);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonstr = objectMapper.writeValueAsString(u);
+        String jsonstr = JsonUtil.toJson(u);
+
         boolean res = redisDao.setStr(key,u);
         logger.debug("addkey set is executed!"+key);
         return res;
     }
 
-    public boolean addexpstr(String key,User u) throws JsonProcessingException {
+    public boolean addexpstr(String key,User u)   {
         String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         u.setAge(dateStr);
         boolean res = redisDao.setStr(key,u,10);

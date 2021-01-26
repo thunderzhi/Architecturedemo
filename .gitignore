@@ -57,3 +57,5 @@ build/
 .vscode/
 
 /cxzmvc/src/main/resources/db.properties
+/codegenerator/src/main/resources/application.properties
+/demogen/src/main/resources/mybatis-generator.xml

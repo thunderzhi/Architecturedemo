@@ -20,7 +20,8 @@
         <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources" />
         <!--type="XMLMAPPER"，如果该属性没有或者写错会出现Cannot instantiate object of type null        -->
         <javaClientGenerator targetPackage="com.cxz.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
-        <table tableName="T_User" />
+<!--        <table tableName="T_User" />-->
+        <table tableName="Order" />
 
     </context>
 </generatorConfiguration>

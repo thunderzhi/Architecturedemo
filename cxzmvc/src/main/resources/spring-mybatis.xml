@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+    <!-- Data Source Bean -->
+    <bean id="dataSource"
+          class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName"
+                  value="${mysql.jdbc.driverClassName}" />
+        <property name="url" value="${mysql.jdbc.url}" />
+        <property name="username"
+                  value="${mysql.jdbc.username}" />
+        <property name="password"
+                  value="${mysql.jdbc.password}" />
+
+        <!-- You could use other data source manager driver such as: class="org.springframework.jdbc.datasource.DriverManagerDataSource". If so, the properties below should be removed based on the schema of xml. -->
+        <property name="initialSize"
+                  value="${mysql.jdbc.initialSize}" />
+        <property name="maxActive"
+                  value="${mysql.jdbc.maxActive}" />
+        <property name="maxIdle" value="${mysql.jdbc.maxIdle}" />
+        <property name="minIdle" value="${mysql.jdbc.minIdle}" />
+        <property name="maxWait" value="${mysql.jdbc.maxWait}" />
+    </bean>
+
+    <!-- SQL Session Factory Bean -->
+    <bean id="sqlSessionFactory"
+          class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!-- auto scan mapping xml files -->
+        <property name="mapperLocations"
+                  value="classpath:mapper/*.xml" />
+        <!-- If there are special configurations such as alias, could add: <property name="configLocation" value="classpath:mybatis-config.xml"></property> -->
+    </bean>
+    <!-- DAO interfaces -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.cxz.mapper" />
+        <property name="sqlSessionFactoryBeanName"
+                  value="sqlSessionFactory" />
+    </bean>
+</beans>

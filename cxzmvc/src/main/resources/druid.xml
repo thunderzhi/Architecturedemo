@@ -7,19 +7,21 @@
 
 
 <!-- scanner jdbc properties  -->
-    <context:property-placeholder location="/WEB-INF/jdbc.properties" />
+    <context:property-placeholder location="classpath:db.properties" />
 
     <!--配置 druid 数据源 关于更多的配置项 可以参考官方文档 <a href="https://github.com/alibaba/druid/wiki/DruidDataSource%E9%85%8D%E7%BD%AE%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A8" > -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!-- 基本属性 url、user、password -->
-        <property name="url" value=" "/>
-        <property name="username" value="root"/>
-        <property name="password" value=""/>
+        <property name="driverClassName"
+                  value="${mysql.jdbc.driverClassName}" />
+        <property name="url" value="${mysql.jdbc.url}"/>
+        <property name="username" value="${mysql.jdbc.username}"/>
+        <property name="password" value="${mysql.jdbc.password}"/>
 
         <!-- 配置初始化大小、最小、最大连连接数量 -->
-        <property name="initialSize" value="5"/>
-        <property name="minIdle" value="10"/>
-        <property name="maxActive" value="20"/>
+        <property name="initialSize" value="${mysql.jdbc.initialSize}"/>
+        <property name="minIdle" value="${mysql.jdbc.minIdle}"/>
+        <property name="maxActive" value="${mysql.jdbc.maxActive}"/>
 
         <!-- 配置获取连接等待超时的时间 -->
         <property name="maxWait" value="60000"/>
@@ -53,4 +55,13 @@
         <property name="filters" value="stat"/>
     </bean>
 
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.cxz.mapper" />
+    </bean>
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- auto scan mapping xml files -->
+        <property name="mapperLocations"
+                  value="classpath:mapper/*.xml" />
+    </bean>
 </beans>

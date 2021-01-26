@@ -1,5 +1,6 @@
 package com.cxz.streamdemo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,11 +22,13 @@ public class streamtest {
         System.out.println("------------------------------------------------------------");
 
         List<Integer> numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5);
+        List<Integer> collect = numbers.stream().filter(i -> i > 8).collect(Collectors.toList());
         // 获取对应的平方数
         List<Integer> squaresList = numbers.stream().map( i -> i*i).distinct().collect(Collectors.toList());
 
         System.out.println("numbers "+numbers.toString());
         System.out.println("squaresList "+squaresList.toString());
+
 
 
         System.out.println("------------------------------------------------------------");
@@ -42,8 +45,22 @@ public class streamtest {
         System.out.println(sum);
         // "sum"的值是"6"
 
-    
-    //.forEach(System.out::println);
+
+        ArrayList<Person> people = new ArrayList<>(Arrays.
+                asList(new Person(1,"a"),
+                        new Person(2,"b"),new Person(3,"c")));
+        System.out.println(people.toString());
+        Person person = people.stream().filter(f -> f.no == 2).collect(Collectors.toList()).get(0);
+        person.setName("xxxxxxxxxx");
+        System.out.println(people.toString());
+
+        //.forEach(System.out::println);
+
+
+        ArrayList<String> strings1 = null;// new ArrayList<>();
+        for (String s : strings1) {
+            System.out.println("ss");
+        }
         
     }
 

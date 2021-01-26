@@ -1,0 +1,26 @@
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <context id="dsql" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql:// :3306/T_TestDB?useUnicode=true&amp;characterEncoding=utf8"
+                        userId="root"
+                        password=""
+        />
+
+        <!--targetProject：文件保存的路径，注意如果是项目是module，建议使用绝对路径       -->
+        <javaModelGenerator targetPackage="com.cxz.pojo" targetProject="D:\dev\project\ArchitectureProj\Architecturedemo\demogen\src\main\java"/>
+
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="D:\dev\project\ArchitectureProj\Architecturedemo\demogen\src\main\resources" />
+        <!--type="XMLMAPPER"，如果该属性没有或者写错会出现Cannot instantiate object of type null        -->
+        <javaClientGenerator targetPackage="com.cxz.mapper" targetProject="D:\dev\project\ArchitectureProj\Architecturedemo\demogen\src\main\java" type="XMLMAPPER"/>
+        <table tableName="T_User" />
+
+    </context>
+</generatorConfiguration>

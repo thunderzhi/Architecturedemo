@@ -2,7 +2,13 @@ package com.cxz.controller;
 
 import com.cxz.impl.RedisService;
 import com.cxz.impl.TestService;
+
+import com.cxz.dao.redis.RedisDao;
+import com.cxz.impl.redis.RedisDaoImpl;
 import com.cxz.model.User;
+
+import io.swagger.annotations.Api;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +30,10 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/home")
+@Api(tags = "Index")
+
 public class IndexController {
+    private static final Logger logger = Logger.getLogger(IndexController.class);
     @Autowired
     public RedisService redisService;
 
@@ -62,6 +72,7 @@ public class IndexController {
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
         //redisService.redisUtil2.set(key,dateStr);
         json.put("success", key);
+        logger.debug("getWelcome is executed!");
         return json;
     }
 

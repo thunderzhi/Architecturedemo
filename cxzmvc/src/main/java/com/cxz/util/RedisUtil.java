@@ -1,13 +1,16 @@
 package com.cxz.util;
 
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.types.Expiration;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -15,6 +18,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,15 +28,33 @@ import java.util.concurrent.TimeUnit;
  * @Description:
  * @date 2020/10/30 16:40
  */
-//@Component
-@Service
-public final class RedisUtil  {
-    @Resource
-    private RedisTemplate<String,String>  redistemplate;
+@Component
+public class RedisUtil {
+    @Autowired
+    private RedisTemplate redistemplate;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    private static final String lockStr ="local key = KEYS[1]\n" +
+            "local content = ARGV[1]\n" +
+            "local ttl = tonumber(ARGV[2])\n" +
+            "local lockSet = redis.call('setnx', key, content)\n" +
+            "if lockSet == 1 then\n" +
+            "    return redis.call('PEXPIRE', key, ttl)\n" +
+            "else\n" +
+            "    return 0\n" +
+            "end\n";
 
+    private static final String unlockStr ="local key = KEYS[1]\n" +
+            "local content = ARGV[1]\n" +
+            "local value = redis.call('get', key)\n" +
+            "if value == content then\n" +
+            "    return redis.call('del', key)\n" +
+            "else\n" +
+            "    return 0\n" +
+            "end";
+
+    private static final Logger logger = Logger.getLogger(RedisUtil.class);
     //region COMMON
     /**
      * 尝试获取分布式锁
@@ -50,6 +72,36 @@ public final class RedisUtil  {
                     Expiration.from(expire, TimeUnit.SECONDS), RedisStringCommands.SetOption.SET_IF_ABSENT);
             return result;
         });
+    }
+    public synchronized boolean lock2(String key, String value, long milliseconds){
+        try {
+            DefaultRedisScript<Boolean> redisScript = new
+                    DefaultRedisScript<Boolean>(lockStr,Boolean.class);
+
+            if (null != key && !key.isEmpty() && null != value && !value.isEmpty() && milliseconds > 0) {
+                List<String> keys = Collections.singletonList(key);
+
+                return (boolean) stringRedisTemplate.execute(redisScript,keys,value,String.valueOf(milliseconds));
+            }
+        } catch (Exception ex) {
+            logger.debug("lock2异常!",ex);
+        }
+        return false;
+    }
+
+    public synchronized boolean releaselock2(String key, String value){
+        try {
+            DefaultRedisScript<Boolean> redisScript = new
+                    DefaultRedisScript<Boolean>(unlockStr,Boolean.class);
+
+            if (null != key && !key.isEmpty() && null != value && !value.isEmpty() ) {
+                List<String> keys = Collections.singletonList(key);
+                return (boolean) stringRedisTemplate.execute(redisScript,keys,value);
+            }
+        } catch (Exception ex) {
+            logger.debug("releaselock2异常!",ex);
+        }
+        return false;
     }
 
     /**
@@ -99,6 +151,10 @@ public final class RedisUtil  {
         return redistemplate.getExpire(key, TimeUnit.SECONDS);
     }
 
+    public long getStrExpire(String key) {
+        return stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
+    }
+
     /**
      * 判断key是否存在
      *
@@ -143,6 +199,9 @@ public final class RedisUtil  {
         return key == null ? null : redistemplate.opsForValue().get(key);
     }
 
+    public String getStr(String key) {
+        return key == null ? null : stringRedisTemplate.opsForValue().get(key);
+    }
     /**
      * 普通缓存放入
      *
@@ -150,15 +209,24 @@ public final class RedisUtil  {
      * @param value 值
      * @return true成功 false失败
      */
-    public boolean set(String key, String value) {
+    public boolean set(String key, Object value) {
         try {
             redistemplate.opsForValue().set(key, value);
             return true;
         } catch (Exception e) {
-            // log.warn("保存缓存异常", e);
+            logger.debug("保存缓存异常!",e);
             return false;
         }
 
+    }
+    public boolean setStr(String key, String value){
+        try {
+            stringRedisTemplate.opsForValue().set(key,value);
+            return true;
+        } catch (Exception e) {
+            logger.debug("保存缓存异常!",e);
+            return false;
+        }
     }
 
     /**
@@ -169,7 +237,7 @@ public final class RedisUtil  {
      * @param time  时间(秒) time要大于0 如果time小于等于0 将设置无限期
      * @return true成功 false 失败
      */
-    public boolean set(String key, String value, long time) {
+    public boolean set(String key, Object value, long time) {
         try {
             if (time > 0) {
                 redistemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
@@ -183,6 +251,19 @@ public final class RedisUtil  {
         }
     }
 
+    public boolean setStr(String key, String value, long time) {
+        try {
+            if (time > 0) {
+                stringRedisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+            } else {
+                set(key, value);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     /**
      * 递增
      *
@@ -370,7 +451,7 @@ public final class RedisUtil  {
      * @Date: 2019-06-05 18:03
      * @return: java.util.Set<java.lang.Object>
      */
-    public Set<String> zrange(String key, long start, long end) {
+    public Set<Object> zrange(String key, long start, long end) {
 
         try {
             return redistemplate.opsForZSet().range(key, start, end);
@@ -388,7 +469,7 @@ public final class RedisUtil  {
      * @Date: 2019-06-05 18:03
      * @return: java.util.Set<java.lang.Object>
      */
-    public boolean zAdd(String key, String value, double score) {
+    public boolean zAdd(String key, Object value, double score) {
 
         try {
             return redistemplate.opsForZSet().add(key, value, score);
@@ -406,7 +487,7 @@ public final class RedisUtil  {
      * @param key 键
      * @return
      */
-    public Set<String> sGet(String key) {
+    public Set<Object> sGet(String key) {
         try {
             return redistemplate.opsForSet().members(key);
         } catch (Exception e) {
@@ -422,7 +503,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return true 存在 false不存在
      */
-    public boolean sHasKey(String key, String value) {
+    public boolean sHasKey(String key, Object value) {
         try {
             return redistemplate.opsForSet().isMember(key, value);
         } catch (Exception e) {
@@ -438,7 +519,7 @@ public final class RedisUtil  {
      * @param values 值 可以是多个
      * @return 成功个数
      */
-    public long sSet(String key, String... values) {
+    public long sSet(String key, Object... values) {
         try {
             return redistemplate.opsForSet().add(key, values);
         } catch (Exception e) {
@@ -455,7 +536,7 @@ public final class RedisUtil  {
      * @param values 值 可以是多个
      * @return 成功个数
      */
-    public long sSetAndTime(String key, long time, String... values) {
+    public long sSetAndTime(String key, long time, Object... values) {
         try {
             Long count = redistemplate.opsForSet().add(key, values);
             if (time > 0) {
@@ -490,7 +571,7 @@ public final class RedisUtil  {
      * @param values 值 可以是多个
      * @return 移除的个数
      */
-    public long setRemove(String key, String... values) {
+    public long setRemove(String key, Object... values) {
         try {
             Long count = redistemplate.opsForSet().remove(key, values);
             return count;
@@ -510,7 +591,7 @@ public final class RedisUtil  {
      * @param end   结束 0 到 -1代表所有值
      * @return
      */
-    public List<String> lGet(String key, long start, long end) {
+    public List<Object> lGet(String key, long start, long end) {
         try {
             return redistemplate.opsForList().range(key, start, end);
         } catch (Exception e) {
@@ -557,7 +638,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return
      */
-    public boolean lPush(String key, String value) {
+    public boolean lPush(String key, Object value) {
         try {
             redistemplate.opsForList().leftPush(key, value);
             return true;
@@ -574,7 +655,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return
      */
-    public boolean rPush(String key, String value) {
+    public boolean rPush(String key, Object value) {
         try {
             redistemplate.opsForList().rightPush(key, value);
             return true;
@@ -608,7 +689,7 @@ public final class RedisUtil  {
      * @param time  时间(秒)
      * @return
      */
-    public boolean rPush(String key, String value, long time) {
+    public boolean rPush(String key, Object value, long time) {
         try {
             redistemplate.opsForList().rightPush(key, value);
             if (time > 0) {
@@ -628,7 +709,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return
      */
-    public boolean lSetList(String key, List<String> value) {
+    public boolean lSetList(String key, List<Object> value) {
         try {
             redistemplate.opsForList().rightPushAll(key, value);
             return true;
@@ -646,7 +727,7 @@ public final class RedisUtil  {
      * @param time  时间(秒)
      * @return
      */
-    public boolean lSet(String key, List<String> value, long time) {
+    public boolean lSet(String key, List<Object> value, long time) {
         try {
             redistemplate.opsForList().rightPushAll(key, value);
             if (time > 0) {
@@ -667,7 +748,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return
      */
-    public boolean lUpdateIndex(String key, long index, String value) {
+    public boolean lUpdateIndex(String key, long index, Object value) {
         try {
             redistemplate.opsForList().set(key, index, value);
             return true;
@@ -685,7 +766,7 @@ public final class RedisUtil  {
      * @param value 值
      * @return 移除的个数
      */
-    public long lRemove(String key, long count, String value) {
+    public long lRemove(String key, long count, Object value) {
         try {
             Long remove = redistemplate.opsForList().remove(key, count, value);
             return remove;

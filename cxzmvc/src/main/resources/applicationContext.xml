@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- Load properties configuration file. -->
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.cxz">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!-- Autowired Annotaion Bean -->
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+    <bean class="com.cxz.config.SwaggerConfig" />
+
+    <!-- if you want to only load a single spring configuration file, you could import all other files here. -->
+    <import resource="SpringMVCCXZ-servlet.xml" />
+<!--    <import resource="spring-mybatis.xml" />-->
+    <import resource="druid.xml"/>
+    <import resource="spring-tx.xml" />
+    <import resource="redis-context.xml"/>
+
+<!--    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+<!--        <property name="prefix" value="/WEB-INF/views/"></property>-->
+<!--        <property name="suffix" value=".jsp"></property>-->
+<!--    </bean>-->
+    <bean id="objectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"
+          p:indentOutput="true"
+          p:simpleDateFormat="yyyy-MM-dd" />
+    <!--配置 mybatis 会话工厂 -->
+<!--    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+<!--        <property name="dataSource" ref="dataSource"/>-->
+<!--        &lt;!&ndash;指定 mapper 文件所在的位置&ndash;&gt;-->
+<!--        <property name="mapperLocations" value="classpath*:/mappers/**/*.xml"/>-->
+<!--        <property name="configLocation" value="classpath:mybatisConfig.xml"/>-->
+<!--    </bean>-->
+
+    <!--扫描注册接口 -->
+    <!--作用:从接口的基础包开始递归搜索，并将它们注册为 MapperFactoryBean(只有至少一种方法的接口才会被注册;, 具体类将被忽略)-->
+<!--    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+<!--        &lt;!&ndash;指定会话工厂 &ndash;&gt;-->
+<!--        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
+<!--        &lt;!&ndash; 指定 mybatis 接口所在的包 &ndash;&gt;-->
+<!--        <property name="basePackage" value="com.heibaiying.dao"/>-->
+<!--    </bean>-->
+
+    <!--定义事务管理器-->
+<!--    <bean id="transactionManager"-->
+<!--          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
+<!--        <property name="dataSource" ref="dataSource"/>-->
+<!--    </bean>-->
+
+    <!-- 开启事务注解@Transactional 支持 -->
+    <tx:annotation-driven/>
+<!--    <bean id="xmlMapper" parent="objectMapper" p:createXmlMapper="true"/>-->
+
+</beans>

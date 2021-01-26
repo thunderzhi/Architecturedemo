@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.spring.web.json.Json;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * <p>
@@ -33,6 +35,7 @@ import java.util.Map;
 @RequestMapping("//order")
 public class OrderController {
 
+
         @Autowired
         private OrderService orderService;
 
@@ -45,7 +48,7 @@ public class OrderController {
                 try {
                         LogUtil.WriteLog(MessageFormat.format("request: {0}",  JsonUtil.toJson(req)));
                         QueryWrapper<Order> qw = new QueryWrapper<>();
-                        qw.eq("OrderNo",req.getOrderno());
+                        //qw.eq("OrderNo",req.getOrderno());
                         orderList = orderService.getOrderList(qw);
                         map = new HashMap<>(6);
                 } catch (Exception e) {
@@ -53,6 +56,38 @@ public class OrderController {
                 }
 
                 map.put("order",orderList);
+                return map;
+        }
+
+        @RequestMapping(value = "/OrderListSelectAll", method = {RequestMethod.GET})
+        @ApiOperation(httpMethod = "GET", value = "OrderListSelectAll")//swagger 当前接口注解
+        public Map<String, List<Order>> OrderListSelectAll(OrderRequest req){
+                List<Order> orderList = null;
+                HashMap<String, List<Order>> map = null;
+                try {
+                        LogUtil.WriteLog(MessageFormat.format("request: {0}",  JsonUtil.toJson(req)));
+                        QueryWrapper<Order> qw = new QueryWrapper<>();
+                        qw.eq("OrderNo",req.getOrderno());
+                        orderList = orderService.OrderListSelectAll(qw);
+                        map = new HashMap<>(6);
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+
+                map.put("order",orderList);
+                return map;
+        }
+        @RequestMapping(value = "/add", method = {RequestMethod.GET})
+        @ApiOperation(httpMethod = "GET", value = "add")
+        public Map<String, String> add(){
+                Order order = new Order();
+                order.setUsername("cxz");
+
+                String orderno = UUID.randomUUID().toString().substring(0,10);
+                order.setOrderno(orderno);
+                int add = orderService.add(order);
+                Map<String, String> map = new HashMap<>();
+                map.put("200", JsonUtil.toJson(order));
                 return map;
         }
 

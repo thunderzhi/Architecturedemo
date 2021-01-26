@@ -24,5 +24,12 @@ public class OrderService {
     public List<Order> getOrderList(QueryWrapper<Order> qw){
         return orderMapper.selectList(qw);
     }
+    public List<Order> OrderListSelectAll(QueryWrapper<Order> qw){
+        return orderMapper.selectAll();
+    }
 
+    public int add(Order model){
+        return orderMapper.insert(model);
+
+    }
 }

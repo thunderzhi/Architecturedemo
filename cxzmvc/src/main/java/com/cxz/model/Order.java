@@ -1,15 +1,15 @@
 package com.cxz.model;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.*;
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-    
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author cxz
@@ -17,19 +17,23 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("Order")
+@TableName("T_Order")
 public class Order implements Serializable {
 
-        private static final long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 
-        @TableField("OrderNo")
-            private String orderno;
+    @TableId(value = "Id",type = IdType.AUTO)
+    private Long Id;
 
-        @TableField("CreateTime")
-            private LocalDateTime createtime;
 
-        @TableField("UserName")
-            private String username;
+    @TableField("OrderNo")
+    private String orderno;
+
+    @TableField("CreateTime")
+    private Date createtime;
+
+    @TableField("UserName")
+    private String username;
 
 
 }

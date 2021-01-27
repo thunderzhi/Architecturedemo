@@ -24,12 +24,16 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/10/22 15:18
  */
 
-
-public final class RedisUtil {
+@Component
+public class RedisUtil {
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    private static final String luaLock = "local key = KEYS[1] \n local content =ARGV[1] \n local ttl = tonumber(ARGV[2]) \n local lockSet = redis.call('setnx',key,content) \n if lockSet == 1 then \n return redis.call('PEXPIRE',key,ttl) \n else \n return 0 \n end";
+    private static final String luaUnlock = "local key = KEYS[1] \n local content = ARGV[1] \n local value = redis.call('get',key) \n if value == content then \n return redis.call('del',key) \n else \n return 0 \n end";
+
 
 
     //region COMMON

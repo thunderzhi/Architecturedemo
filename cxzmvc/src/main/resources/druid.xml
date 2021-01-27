@@ -20,6 +20,7 @@
 
         <!-- 配置初始化大小、最小、最大连连接数量 -->
         <property name="initialSize" value="${mysql.jdbc.initialSize}"/>
+        <!--        最小空闲连接数-->
         <property name="minIdle" value="${mysql.jdbc.minIdle}"/>
         <property name="maxActive" value="${mysql.jdbc.maxActive}"/>
 

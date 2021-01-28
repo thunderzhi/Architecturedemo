@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.spring.web.json.Json;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * <p>
@@ -91,5 +89,32 @@ public class OrderController {
                 return map;
         }
 
+        @RequestMapping(value = "/addmany", method = {RequestMethod.GET})
+        @ApiOperation(httpMethod = "GET", value = "addmany")
+        public Map<String, String> addmany(){
+                ArrayList<Order> orders = new ArrayList<>();
+                int i = 0;
+                while (i<6){
+                        Order order = new Order();
+                        order.setUsername("cxz");
+                        order.setCreatetime(LocalDateTime.now());
+                        String orderno = UUID.randomUUID().toString().substring(0,10);
+                        order.setOrderno(orderno);
+                        orders.add(order);
+                        i++;
+                }
 
+                System.out.println(" sys: "+JsonUtil.toJson(orders));
+
+                try {
+                        orderService.addmanyorder(orders);
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+
+                //
+                Map<String, String> map = new HashMap<>();
+                map.put("200", JsonUtil.toJson(orders));
+                return map;
+        }
 }

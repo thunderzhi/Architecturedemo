@@ -12,13 +12,13 @@
 
     <!-- Auto scan AOP annotation -->
 <!--    <aop:aspectj-autoproxy proxy-target-class="true" />-->
-
+    <!-- 开启事务注解@Transactional 支持 -->
     <!-- Transaction Manager -->
     <bean id="transactionManager"
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
-
+    <tx:annotation-driven transaction-manager="transactionManager"/>
     <!-- Configure the transaction in detail. -->
     <tx:advice id="transactionAdvice"
                transaction-manager="transactionManager">

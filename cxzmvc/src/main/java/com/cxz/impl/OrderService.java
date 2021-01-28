@@ -5,6 +5,8 @@ import com.cxz.mapper.OrderMapper;
 import com.cxz.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,5 +33,15 @@ public class OrderService {
     public int add(Order model){
         return orderMapper.insert(model);
 
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public void addmanyorder(List<Order> list) throws Exception {
+        for (int i = 0; i < list.size(); i++) {
+            int add =   orderMapper.insert(list.get(i));
+            if (i%5==1){
+                throw new RuntimeException("rollback");
+            }
+        }
     }
 }

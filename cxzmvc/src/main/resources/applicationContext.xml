@@ -61,8 +61,7 @@
 <!--        <property name="dataSource" ref="dataSource"/>-->
 <!--    </bean>-->
 
-    <!-- 开启事务注解@Transactional 支持 -->
-    <tx:annotation-driven/>
+
 <!--    <bean id="xmlMapper" parent="objectMapper" p:createXmlMapper="true"/>-->
 
 </beans>

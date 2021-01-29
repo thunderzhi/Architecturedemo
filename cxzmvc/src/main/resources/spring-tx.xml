@@ -18,6 +18,7 @@
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
+<!--    事务的开关-->
     <tx:annotation-driven transaction-manager="transactionManager"/>
     <!-- Configure the transaction in detail. -->
     <tx:advice id="transactionAdvice"

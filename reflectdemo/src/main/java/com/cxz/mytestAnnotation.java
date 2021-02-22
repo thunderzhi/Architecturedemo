@@ -12,5 +12,8 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface mytestAnnotation {
+
     String getValue() default  "annotation on def method";
+
+    int num();
 }

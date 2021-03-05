@@ -2,6 +2,7 @@ package com.cxz.model.vo;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -20,4 +21,7 @@ public class OrderRequest  {
 
     private LocalDateTime createtime;
 
+    private BigDecimal amount;
+
+    private Long id;
 }

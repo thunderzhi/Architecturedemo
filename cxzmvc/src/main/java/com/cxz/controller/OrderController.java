@@ -117,4 +117,17 @@ public class OrderController {
                 map.put("200", JsonUtil.toJson(orders));
                 return map;
         }
+        @RequestMapping(value = "/Updatewhere", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "updatewhere")//swagger 当前接口注解
+        public Map<String, String> updatewhere(OrderRequest req) throws Exception {
+                QueryWrapper<Order> qw = new QueryWrapper<>();
+                qw.eq("OrderNo",req.getOrderno());
+                qw.eq("Id",req.getId());
+                qw.eq("UserName",req.getName());
+                List<Order> orderList = orderService.getOrderList(qw);
+                long res = orderService.updatewhere(orderList);
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(res));
+                return map;
+        }
 }

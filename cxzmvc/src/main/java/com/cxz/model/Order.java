@@ -2,6 +2,7 @@ package com.cxz.model;
 
 import com.baomidou.mybatisplus.annotation.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -41,5 +42,6 @@ public class Order implements Serializable {
     @TableField("UserName")
     private String username;
 
-
+    @TableField("Amount")
+    private BigDecimal amount;
 }

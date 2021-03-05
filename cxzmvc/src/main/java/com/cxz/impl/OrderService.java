@@ -1,6 +1,7 @@
 package com.cxz.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cxz.mapper.OrderMapper;
 import com.cxz.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,17 @@ public class OrderService {
                 throw new RuntimeException("rollback");
             }
         }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long updatewhere(List<Order> list) throws Exception {
+        long n = 0;
+        for (Order order : list) {
+            UpdateWrapper<Order> uw = new UpdateWrapper<>();
+            uw.set("Amount",6.6);
+            long i = orderMapper.update(order,uw);
+            n+=i;
+        }
+        return n;
     }
 }

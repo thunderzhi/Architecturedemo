@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @date 2020/11/2 15:23
  */
 @Service
-public class RedisService {
+public class RedisService1 {
     @Autowired
     public RedisUtil2 redisUtil2;
 

@@ -1,10 +1,8 @@
 package com.cxz.controller;
 
-import com.cxz.impl.RedisService;
-import com.cxz.impl.TestService;
 
-import com.cxz.dao.redis.RedisDao;
-import com.cxz.impl.redis.RedisDaoImpl;
+import com.cxz.impl.RedisService1;
+
 import com.cxz.model.User;
 
 import io.swagger.annotations.Api;
@@ -35,7 +33,7 @@ import java.util.Map;
 public class IndexController {
     private static final Logger logger = Logger.getLogger(IndexController.class);
     @Autowired
-    public RedisService redisService;
+    public RedisService1 redisService1;
 
     @RequestMapping("/index")
     public String index() {
@@ -70,7 +68,7 @@ public class IndexController {
         String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        //redisService.redisUtil2.set(key,dateStr);
+        //redisService1.redisUtil2.set(key,dateStr);
         json.put("success", key);
         logger.debug("getWelcome is executed!");
         return json;
@@ -83,7 +81,7 @@ public class IndexController {
         //String dateStr = Long.toString(System.currentTimeMillis()/1000L);
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        Object v = redisService.redisUtil2.get(k);
+        Object v = redisService1.redisUtil2.get(k);
         json.put("success", v);
         return json;
     }
@@ -98,7 +96,7 @@ public class IndexController {
         u.setName(k);
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
-        boolean b = redisService.redisUtil2.set(k,u);
+        boolean b = redisService1.redisUtil2.set(k,u);
         json.put("success", String.valueOf(b));
         return json;
     }

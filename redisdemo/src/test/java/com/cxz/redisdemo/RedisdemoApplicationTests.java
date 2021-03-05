@@ -1,6 +1,5 @@
 package com.cxz.redisdemo;
 
-import com.cxz.utils.RedisUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -16,7 +15,7 @@ class RedisdemoApplicationTests {
     @Resource
     private RedisUtils redisUtils;
     @Resource
-    private RedisUtil redisUtil;
+    private RedisUtilTT redisUtil;
     /**
      * 插入缓存数据
      */

@@ -76,5 +76,10 @@
             </plugin>
         </plugins>
     </build>
-
+    <distributionManagement>
+        <repository>
+            <id>localRepository</id>
+            <url>file:D:/framework/maven/repository</url>
+        </repository>
+    </distributionManagement>
 </project>

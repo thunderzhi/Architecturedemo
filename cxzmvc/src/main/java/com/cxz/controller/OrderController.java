@@ -2,11 +2,13 @@ package com.cxz.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cxz.impl.OrderService;
 import com.cxz.model.*;
 import com.cxz.model.vo.OrderRequest;
 import com.cxz.utils.JsonUtil;
 import com.cxz.utils.LogUtil;
+import com.cxz.utils.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,11 +123,22 @@ public class OrderController {
         @ApiOperation(httpMethod = "POST", value = "updatewhere")//swagger 当前接口注解
         public Map<String, String> updatewhere(OrderRequest req) throws Exception {
                 QueryWrapper<Order> qw = new QueryWrapper<>();
-                qw.eq("OrderNo",req.getOrderno());
-                qw.eq("Id",req.getId());
-                qw.eq("UserName",req.getName());
+                UpdateWrapper<Order> uw = new UpdateWrapper<>();
+                if (!StringUtils.isBlank(req.getOrderno())){
+                   qw.eq("OrderNo",req.getOrderno());
+                   uw.eq("OrderNo",req.getOrderno());
+                }
+                if (req.getId()!=null&& req.getId()>0){
+                        qw.eq("Id",req.getId());
+                        uw.eq("Id",req.getId());
+                }
+                if (!StringUtils.isBlank(req.getName())){
+                        qw.eq("UserName",req.getName());
+                }
+
+                uw.set("Amount",1.6);
                 List<Order> orderList = orderService.getOrderList(qw);
-                long res = orderService.updatewhere(orderList);
+                long res = orderService.updatewhere(uw);
                 Map<String, String> map = new HashMap<>();
                 map.put("200", String.valueOf(res));
                 return map;

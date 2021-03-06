@@ -27,7 +27,7 @@ import java.util.Map;
  * @date 2020/10/26 15:08
  */
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/index")
 @Api(tags = "Index")
 
 public class IndexController {

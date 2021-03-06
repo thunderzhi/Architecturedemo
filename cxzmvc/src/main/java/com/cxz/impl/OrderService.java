@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cxz.mapper.OrderMapper;
 import com.cxz.model.Order;
+import com.cxz.model.vo.OrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -47,14 +48,10 @@ public class OrderService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
-    public long updatewhere(List<Order> list) throws Exception {
+    public long updatewhere(UpdateWrapper<Order> uw) throws Exception {
         long n = 0;
-        for (Order order : list) {
-            UpdateWrapper<Order> uw = new UpdateWrapper<>();
-            uw.set("Amount",6.6);
-            long i = orderMapper.update(order,uw);
-            n+=i;
-        }
-        return n;
+
+        long i = orderMapper.update(null,uw);
+        return i;
     }
 }

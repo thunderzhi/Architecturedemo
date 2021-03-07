@@ -143,4 +143,21 @@ public class OrderController {
                 map.put("200", String.valueOf(res));
                 return map;
         }
+
+        @RequestMapping(value = "/noTransaction", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "noTransaction")//swagger 当前接口注解
+        public Map<String, String> noTransaction() throws Exception {
+                long l = orderService.noTransaction();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+        @RequestMapping(value = "/reqTransaction", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "reqTransaction")//swagger 当前接口注解
+        public Map<String, String> reqTransaction() throws Exception {
+                long l = orderService.reqTransaction();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
 }

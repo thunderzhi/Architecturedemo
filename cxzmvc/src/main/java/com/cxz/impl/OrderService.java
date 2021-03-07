@@ -96,4 +96,25 @@ public class OrderService {
         System.out.println(JsonUtil.toJson(m));
         return m.getId();
     }
+
+    @Transactional(propagation = Propagation.SUPPORTS,transactionManager = "transactionManager")
+    public long supportTransaction()throws Exception {
+        Order m = new Order();
+        m.setOrderno("444444444");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("aaaaaaa");
+        m.setAmount(new BigDecimal(100000000));
+        orderMapper.insert(m);
+        Long id = m.getId();
+        m.setId(id);
+        m.setUsername("bbbbbbb");
+        int x=1/0;
+        //throw new RuntimeException("rollback");
+        orderMapper.insert(m);
+
+        System.out.println(JsonUtil.toJson(m));
+        return m.getId();
+    }
+
 }

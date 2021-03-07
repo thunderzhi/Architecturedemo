@@ -160,4 +160,13 @@ public class OrderController {
                 map.put("200", String.valueOf(l));
                 return map;
         }
+
+        @RequestMapping(value = "/supportTransaction", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "supportTransaction")//swagger 当前接口注解
+        public Map<String, String> supportTransaction() throws Exception {
+                long l = orderService.supportTransaction();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
 }

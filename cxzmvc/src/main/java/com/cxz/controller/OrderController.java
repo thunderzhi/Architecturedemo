@@ -137,6 +137,7 @@ public class OrderController {
                 }
 
                 uw.set("Amount",1.6);
+                uw.last(" LIMIT 1");
                 List<Order> orderList = orderService.getOrderList(qw);
                 long res = orderService.updatewhere(uw);
                 Map<String, String> map = new HashMap<>();

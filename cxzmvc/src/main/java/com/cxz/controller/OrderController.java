@@ -136,11 +136,44 @@ public class OrderController {
                         qw.eq("UserName",req.getName());
                 }
 
-                uw.set("Amount",1.6);
+                uw.set("Amount",3.6);
+                uw.last(" LIMIT 1 ");
                 List<Order> orderList = orderService.getOrderList(qw);
                 long res = orderService.updatewhere(uw);
                 Map<String, String> map = new HashMap<>();
                 map.put("200", String.valueOf(res));
                 return map;
         }
+
+        @RequestMapping(value = "/updatewherein", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "updatewherein")//swagger 当前接口注解
+        public Map<String, String> updatewherein(OrderRequest req) throws Exception {
+                QueryWrapper<Order> qw = new QueryWrapper<>();
+                UpdateWrapper<Order> uw = new UpdateWrapper<>();
+//                if (!StringUtils.isBlank(req.getOrderno())){
+//                        qw.eq("OrderNo",req.getOrderno().split(","));
+//                        uw.eq("OrderNo",req.getOrderno().split(","));
+//                }
+                //uw.eq("OrderNo",req.getOrderno().split(","));
+
+//                if (req.getId()!=null&& req.getId()>0){
+//                        qw.eq("Id",req.getId());
+//                        uw.eq("Id",req.getId());
+//                }
+//                if (!StringUtils.isBlank(req.getName())){
+//                        qw.eq("UserName",req.getName());
+//                }
+
+                uw.set("Amount",66.6);
+                uw.in("OrderNo",req.getOrderno().split(","));
+                //uw.last(" LIMIT 10 ");
+                List<Order> orderList = orderService.getOrderList(qw);
+                long res = orderService.updatewhere(uw);
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(res));
+                return map;
+        }
+
+        p
+
 }

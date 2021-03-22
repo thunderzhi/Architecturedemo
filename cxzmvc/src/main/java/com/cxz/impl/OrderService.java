@@ -54,4 +54,12 @@ public class OrderService {
         long i = orderMapper.update(null,uw);
         return i;
     }
+
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long updatewherein(UpdateWrapper<Order> uw) throws Exception {
+        long n = 0;
+
+        long i = orderMapper.update(null,uw);
+        return i;
+    }
 }

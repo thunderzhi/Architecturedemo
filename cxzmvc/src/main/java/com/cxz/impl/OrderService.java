@@ -28,6 +28,9 @@ public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
 
+    @Autowired
+    private OrderDao orderDao;
+
     public List<Order> getOrderList(QueryWrapper<Order> qw){
         return orderMapper.selectList(qw);
     }
@@ -165,4 +168,50 @@ public class OrderService {
         return m.getId();
     }
 
+
+    //scene first
+
+    //region  error occur in func1 check transaction
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long requireTransScene11(){
+        Order m = new Order();
+        m.setOrderno("77777");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("requireTran11");
+        m.setAmount(new BigDecimal(100000000));
+        orderMapper.insert(m);
+        orderDao.requireNewTransScene12();
+        throw new RuntimeException("run");
+        //return m.getId();
+    }
+
+
+
+    //endregion
+    //scene second
+
+    //region error occur in func 2 check transaction
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long requireTransScene21(){
+        Order m = new Order();
+        m.setOrderno("88888");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("requireTran21");
+        m.setAmount(new BigDecimal(100000000));
+        orderMapper.insert(m);
+
+        //不catch会导致 主调用方yiqirollback
+        try {
+            orderDao.requireNewTransScene22();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return m.getId();
+    }
+
+
+    //endregion
 }

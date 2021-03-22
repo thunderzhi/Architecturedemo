@@ -199,5 +199,21 @@ public class OrderController {
                 return map;
         }
 
+        @RequestMapping(value = "/requireTransScene1", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "requireTransScene1")//swagger 当前接口注解
+        public Map<String, String> requireTransScene1() throws Exception {
+                long l = orderService.requireTransScene11();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
 
+        @RequestMapping(value = "/requireTransScene2", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "requireTransScene2")//swagger 当前接口注解
+        public Map<String, String> requireTransScene2() throws Exception {
+                long l = orderService.requireTransScene21();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
 }

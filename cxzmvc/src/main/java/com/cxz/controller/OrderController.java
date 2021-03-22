@@ -145,6 +145,7 @@ public class OrderController {
                 return map;
         }
 
+        //没有事务
         @RequestMapping(value = "/noTransaction", method = {RequestMethod.POST})
         @ApiOperation(httpMethod = "POST", value = "noTransaction")//swagger 当前接口注解
         public Map<String, String> noTransaction() throws Exception {
@@ -165,9 +166,38 @@ public class OrderController {
         @RequestMapping(value = "/supportTransaction", method = {RequestMethod.POST})
         @ApiOperation(httpMethod = "POST", value = "supportTransaction")//swagger 当前接口注解
         public Map<String, String> supportTransaction() throws Exception {
-                long l = orderService.supportTransaction();
+                long l = orderService.supporttrans();
                 Map<String, String> map = new HashMap<>();
                 map.put("200", String.valueOf(l));
                 return map;
         }
+
+        @RequestMapping(value = "/supportNoTransaction", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "supportNoTransaction")//swagger 当前接口注解
+        public Map<String, String> supportNoTransaction() throws Exception {
+                long l = orderService.supportNotrans();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+        @RequestMapping(value = "/mandatory", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "mandatory")//swagger 当前接口注解
+        public Map<String, String> mandatory() throws Exception {
+                long l = orderService.mandatory();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+        @RequestMapping(value = "/mandatoryparent", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "mandatoryparent")//swagger 当前接口注解
+        public Map<String, String> mandatoryparent() throws Exception {
+                long l = orderService.mandatoryparent();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+
 }

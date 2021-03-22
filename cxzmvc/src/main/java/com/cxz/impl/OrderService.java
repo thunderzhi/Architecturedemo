@@ -59,17 +59,18 @@ public class OrderService {
     }
 
 
+    //没有事务，部分数据没有rollback
     public long noTransaction()throws Exception {
         Order m = new Order();
         m.setOrderno("444444444");
         m.setCreatetime(LocalDateTime.now());
         m.setDataflag(1);
-        m.setUsername("aaaaaaa");
+        m.setUsername("noTransaction");
         m.setAmount(new BigDecimal(100000000));
         orderMapper.insert(m);
         Long id = m.getId();
         m.setId(id);
-        m.setUsername("bbbbbbb");
+        m.setUsername("noTransaction");
         int x=1/0;
         //throw new RuntimeException("rollback");
         orderMapper.insert(m);
@@ -77,18 +78,19 @@ public class OrderService {
         System.out.println(JsonUtil.toJson(m));
         return m.getId();
     }
+    //REQUIRED 所有数据rollback
     @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
     public long reqTransaction()throws Exception {
         Order m = new Order();
         m.setOrderno("444444444");
         m.setCreatetime(LocalDateTime.now());
         m.setDataflag(1);
-        m.setUsername("aaaaaaa");
+        m.setUsername("aaareqTrans");
         m.setAmount(new BigDecimal(100000000));
         orderMapper.insert(m);
         Long id = m.getId();
         m.setId(id);
-        m.setUsername("bbbbbbb");
+        m.setUsername("bbbreqTransaction");
         int x=1/0;
         //throw new RuntimeException("rollback");
         orderMapper.insert(m);
@@ -97,18 +99,64 @@ public class OrderService {
         return m.getId();
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long supporttrans() throws Exception {
+        return supportTransaction();
+    }
+
+
+    public long supportNotrans() throws Exception {
+        return supportTransaction();
+    }
+
+    //support 是根据invoke 来决定是否使用事务
     @Transactional(propagation = Propagation.SUPPORTS,transactionManager = "transactionManager")
     public long supportTransaction()throws Exception {
         Order m = new Order();
         m.setOrderno("444444444");
         m.setCreatetime(LocalDateTime.now());
         m.setDataflag(1);
-        m.setUsername("aaaaaaa");
+        m.setUsername("aasupportTransaction");
         m.setAmount(new BigDecimal(100000000));
         orderMapper.insert(m);
         Long id = m.getId();
         m.setId(id);
-        m.setUsername("bbbbbbb");
+        m.setUsername("bbsupportTransaction");
+        int x=1/0;
+        //throw new RuntimeException("rollback");
+        orderMapper.insert(m);
+
+        System.out.println(JsonUtil.toJson(m));
+        return m.getId();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long mandatoryparent(){
+        Order m = new Order();
+        m.setOrderno("666");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("mandatoryparent");
+        m.setAmount(new BigDecimal(100000000));
+        orderMapper.insert(m);
+        mandatory();
+        return m.getId();
+    }
+
+
+    //mandatory 不能单独存在，必须依赖上层调用的transaction
+    @Transactional(propagation = Propagation.MANDATORY,transactionManager = "transactionManager")
+    public long mandatory(){
+        Order m = new Order();
+        m.setOrderno("444444444");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("aasumandatory");
+        m.setAmount(new BigDecimal(100000000));
+        orderMapper.insert(m);
+        Long id = m.getId();
+        m.setId(id);
+        m.setUsername("bbsumandatory");
         int x=1/0;
         //throw new RuntimeException("rollback");
         orderMapper.insert(m);

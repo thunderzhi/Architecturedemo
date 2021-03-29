@@ -202,6 +202,7 @@ public class OrderService {
         m.setAmount(new BigDecimal(100000000));
         orderMapper.insert(m);
 
+        
         //不catch会导致 主调用方yiqirollback
         try {
             orderDao.requireNewTransScene22();

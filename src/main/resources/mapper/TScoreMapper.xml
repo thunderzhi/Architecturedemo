@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxz.mapper.TScoreMapper">
+
+                <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="com.cxz.model.TScore">
+                                                                                                                                                                                    <result column="Id" property="id" />
+                                                            <result column="StuNo" property="stuno" />
+                                                                <result column="A" property="a" />
+                                                                <result column="B" property="b" />
+                                                                <result column="C" property="c" />
+                                                                <result column="D" property="d" />
+                                    </resultMap>
+
+                <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+            Id,
+        StuNo, A, B, C, D
+    </sql>
+
+    </mapper>

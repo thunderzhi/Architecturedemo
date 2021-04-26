@@ -119,6 +119,40 @@ public class OrderController {
                 map.put("200", JsonUtil.toJson(orders));
                 return map;
         }
+
+        @RequestMapping(value = "/addmanyScore", method = {RequestMethod.GET})
+        @ApiOperation(httpMethod = "GET", value = "addmanyScore")
+        public Map<String, String> addmanyScore(){
+                ArrayList<TScore> scores = new ArrayList<>();
+                int i = 0;
+                while (i<6){
+                        TScore score = new TScore();
+                        score.setStuno(UUID.randomUUID().toString());
+                        Random r = new Random();
+
+                        score.setA(r.nextInt(100));
+                        score.setB(r.nextInt(100));
+                        score.setC(r.nextInt(100));
+                        score.setD(r.nextInt(100));
+
+
+                        scores.add(score);
+                        i++;
+                }
+                try {
+                        orderService.addmanyScores(scores);
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+
+                Map<String, String> map = new HashMap<>();
+                map.put("200", JsonUtil.toJson(scores));
+                return map;
+        }
+
+
+
+
         @RequestMapping(value = "/Updatewhere", method = {RequestMethod.POST})
         @ApiOperation(httpMethod = "POST", value = "updatewhere")//swagger 当前接口注解
         public Map<String, String> updatewhere(OrderRequest req) throws Exception {

@@ -1,5 +1,7 @@
 package com.cxz.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -20,6 +22,8 @@ import lombok.EqualsAndHashCode;
 public class TScore implements Serializable {
 
         private static final long serialVersionUID=1L;
+        @TableId(value = "Id",type = IdType.AUTO)
+        private Long Id;
 
         @TableField("StuNo")
             private String stuno;

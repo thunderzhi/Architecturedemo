@@ -3,7 +3,9 @@ package com.cxz.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cxz.mapper.OrderMapper;
+import com.cxz.mapper.TScoreMapper;
 import com.cxz.model.Order;
+import com.cxz.model.TScore;
 import com.cxz.model.vo.OrderRequest;
 import com.cxz.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class OrderService {
 
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private TScoreMapper scoreMapper;
 
     @Autowired
     private OrderDao orderDao;
@@ -50,6 +54,14 @@ public class OrderService {
             if (i%5==1){
                 throw new RuntimeException("rollback");
             }
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public void addmanyScores(List<TScore> list) throws Exception {
+        for (int i = 0; i < list.size(); i++) {
+            int add =   scoreMapper.insert(list.get(i));
+
         }
     }
 

@@ -1,4 +1,4 @@
-package com.cxz.controller;
+﻿package com.cxz.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -119,6 +119,40 @@ public class OrderController {
                 map.put("200", JsonUtil.toJson(orders));
                 return map;
         }
+
+        @RequestMapping(value = "/addmanyScore", method = {RequestMethod.GET})
+        @ApiOperation(httpMethod = "GET", value = "addmanyScore")
+        public Map<String, String> addmanyScore(){
+                ArrayList<TScore> scores = new ArrayList<>();
+                int i = 0;
+                while (i<6){
+                        TScore score = new TScore();
+                        score.setStuno(UUID.randomUUID().toString());
+                        Random r = new Random();
+
+                        score.setA(r.nextInt(100));
+                        score.setB(r.nextInt(100));
+                        score.setC(r.nextInt(100));
+                        score.setD(r.nextInt(100));
+
+
+                        scores.add(score);
+                        i++;
+                }
+                try {
+                        orderService.addmanyScores(scores);
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+
+                Map<String, String> map = new HashMap<>();
+                map.put("200", JsonUtil.toJson(scores));
+                return map;
+        }
+
+
+
+
         @RequestMapping(value = "/Updatewhere", method = {RequestMethod.POST})
         @ApiOperation(httpMethod = "POST", value = "updatewhere")//swagger 当前接口注解
         public Map<String, String> updatewhere(OrderRequest req) throws Exception {
@@ -142,6 +176,78 @@ public class OrderController {
                 long res = orderService.updatewhere(uw);
                 Map<String, String> map = new HashMap<>();
                 map.put("200", String.valueOf(res));
+                return map;
+        }
+
+        //没有事务
+        @RequestMapping(value = "/noTransaction", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "noTransaction")//swagger 当前接口注解
+        public Map<String, String> noTransaction() throws Exception {
+                long l = orderService.noTransaction();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+        @RequestMapping(value = "/reqTransaction", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "reqTransaction")//swagger 当前接口注解
+        public Map<String, String> reqTransaction() throws Exception {
+                long l = orderService.reqTransaction();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+        @RequestMapping(value = "/supportTransaction", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "supportTransaction")//swagger 当前接口注解
+        public Map<String, String> supportTransaction() throws Exception {
+                long l = orderService.supporttrans();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+        @RequestMapping(value = "/supportNoTransaction", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "supportNoTransaction")//swagger 当前接口注解
+        public Map<String, String> supportNoTransaction() throws Exception {
+                long l = orderService.supportNotrans();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+        @RequestMapping(value = "/mandatory", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "mandatory")//swagger 当前接口注解
+        public Map<String, String> mandatory() throws Exception {
+                long l = orderService.mandatory();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+        @RequestMapping(value = "/mandatoryparent", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "mandatoryparent")//swagger 当前接口注解
+        public Map<String, String> mandatoryparent() throws Exception {
+                long l = orderService.mandatoryparent();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+        @RequestMapping(value = "/requireTransScene1", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "requireTransScene1")//swagger 当前接口注解
+        public Map<String, String> requireTransScene1() throws Exception {
+                long l = orderService.requireTransScene11();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+        @RequestMapping(value = "/requireTransScene2", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "requireTransScene2")//swagger 当前接口注解
+        public Map<String, String> requireTransScene2() throws Exception {
+                long l = orderService.requireTransScene21();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
                 return map;
         }
 

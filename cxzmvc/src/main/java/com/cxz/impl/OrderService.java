@@ -73,6 +73,13 @@ public class OrderService {
         return i;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long updatewherein(UpdateWrapper<Order> uw) throws Exception {
+        long n = 0;
+
+        long i = orderMapper.update(null,uw);
+        return i;
+    }
 
     //没有事务，部分数据没有rollback
     public long noTransaction()throws Exception {
@@ -215,7 +222,7 @@ public class OrderService {
         orderMapper.insert(m);
 
 
-        //不catch会导致 主调用方yiqirollback
+        //不catch会导致调用方yiqirollback
         try {
             orderDao.requireNewTransScene22();
         } catch (Exception e) {

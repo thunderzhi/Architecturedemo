@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author cxz
@@ -45,6 +46,8 @@ public class RedisopController {
     //@ResponseBody
     public Map<String, String> addkey(@RequestParam("key")  String key)   {
         HashMap json = new HashMap();
+        ConcurrentHashMap<Object, Object> concurrentHashMap = new ConcurrentHashMap<>();
+
         //String key = "cxzmvc"+dateStr;
         //Timestamp time1 = new Timestamp(System.currentTimeMillis());
         boolean b = redisService.addkey(key);

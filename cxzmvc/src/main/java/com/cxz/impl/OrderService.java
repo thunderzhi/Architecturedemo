@@ -382,15 +382,32 @@ public class OrderService {
         return  m.getId();
     }
 
-    @Transactional(propagation = Propagation.NEVER,transactionManager = "transactionManager")
-    public long nevertrans(){
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long outnestnoTran(){
         Order m = new Order();
-        m.setOrderno("nevertrans");
+        m.setOrderno("outnestnoTran");
         m.setCreatetime(LocalDateTime.now());
         m.setDataflag(1);
-        m.setUsername("nevertrans");
+        m.setUsername("outsetTran");
         m.setAmount(new BigDecimal(777));
+        order2Service.nested();
         orderMapper.insert(m);
+
+        int i = 1/0;
+
         return  m.getId();
     }
+    @Transactional(propagation = Propagation.NESTED,transactionManager = "transactionManager")
+    public long nested(){
+        Order m = new Order();
+        m.setOrderno("nested");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("nested");
+        m.setAmount(new BigDecimal(777));
+        orderMapper.insert(m);
+        int i = 1/0;
+        return  m.getId();
+    }
+
 }

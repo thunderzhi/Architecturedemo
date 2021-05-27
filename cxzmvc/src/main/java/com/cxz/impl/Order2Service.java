@@ -75,4 +75,17 @@ public class Order2Service {
         orderMapper.insert(m);
         return  m.getId();
     }
+
+    @Transactional(propagation = Propagation.NESTED,transactionManager = "transactionManager")
+    public long nested(){
+        Order m = new Order();
+        m.setOrderno("nested");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("nested");
+        m.setAmount(new BigDecimal(777));
+        orderMapper.insert(m);
+        return  m.getId();
+    }
+
 }

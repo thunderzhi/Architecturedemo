@@ -309,6 +309,17 @@ public class OrderController {
                 return map;
         }
 
+        @RequestMapping(value = "/outnestnoTran", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "outnestnoTran")
+        public Map<String, String> outnestnoTran() {
+                long l = orderService.outnestnoTran();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+
+
 
 
         @RequestMapping(value = "/updatewherein", method = {RequestMethod.POST})

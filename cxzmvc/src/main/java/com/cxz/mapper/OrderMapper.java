@@ -4,6 +4,7 @@ package com.cxz.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.cxz.model.Order;
 import org.apache.ibatis.annotations.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
  * @since 2021-01-17
  */
 @Mapper
+@Qualifier("sqlSessionFactory")
 public interface OrderMapper extends BaseMapper<Order>{
 
 

@@ -103,11 +103,10 @@
         <property name="filters" value="stat"/>
     </bean>
 
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.cxz.mapper" />
-    </bean>
+
     <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
+<!--        <property name="typeAliasesPackage" value="com.cxz.mapper.TestDB" />-->
         <!-- auto scan mapping xml files -->
         <property name="mapperLocations"
                   value="classpath:mapper/TestDB/*.xml" />
@@ -115,8 +114,18 @@
 
     <bean id="sqlSessionFactory2" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource2"/>
+<!--        <property name="typeAliasesPackage" value="com.cxz.mapper.TestDB2" />-->
+
         <!-- auto scan mapping xml files -->
         <property name="mapperLocations"
                   value="classpath:mapper/TestDB2/*.xml" />
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.cxz.mapper.TestDB" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.cxz.mapper.TestDB2" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory2"/>
     </bean>
 </beans>

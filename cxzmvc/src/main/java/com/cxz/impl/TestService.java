@@ -1,7 +1,7 @@
 package com.cxz.impl;
 
 
-import com.cxz.mapper.TUserMapper;
+import com.cxz.mapper.TestDB.TUserMapper;
 import com.cxz.model.TUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

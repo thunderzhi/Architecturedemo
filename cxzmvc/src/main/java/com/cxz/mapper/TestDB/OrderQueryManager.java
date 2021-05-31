@@ -1,6 +1,7 @@
-package com.cxz.mapper;
+package com.cxz.mapper.TestDB;
 
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,13 +11,13 @@ import org.springframework.stereotype.Service;
  * @Description:
  * @date 2021/1/6 22:48
  */
-@Service
-public class UserQueryManager {
+@Repository
+public class OrderQueryManager {
 
     public String selectAll(){
         String sql = new SQL() {{
-            SELECT("Id, Name,Age,Birth");
-            FROM("T_User");
+            SELECT("Id, OrderNo, CreateTime ,DataFlag, UserName");
+            FROM("T_Order");
         }}.toString();
         return sql;
     }

@@ -1,10 +1,9 @@
-package com.cxz.mapper;
+package com.cxz.mapper.TestDB;
 
 
 import com.cxz.model.TUser;
 import com.cxz.model.TUserExample;
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

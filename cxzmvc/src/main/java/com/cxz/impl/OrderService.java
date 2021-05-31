@@ -2,13 +2,11 @@ package com.cxz.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.cxz.mapper.OrderMapper;
-import com.cxz.mapper.TScoreMapper;
+import com.cxz.mapper.TestDB.OrderMapper;
+import com.cxz.mapper.TestDB.TScoreMapper;
 import com.cxz.model.Order;
 import com.cxz.model.TScore;
-import com.cxz.model.vo.OrderRequest;
 import com.cxz.utils.JsonUtil;
-import io.netty.util.internal.UnstableApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

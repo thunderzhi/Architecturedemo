@@ -1,6 +1,6 @@
 package com.cxz.impl;
 
-import com.cxz.mapper.OrderMapper;
+import com.cxz.mapper.TestDB.OrderMapper;
 import com.cxz.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

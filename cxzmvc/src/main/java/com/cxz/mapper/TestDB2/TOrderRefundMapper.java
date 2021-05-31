@@ -1,4 +1,4 @@
-package com.cxz.mapper;
+package com.cxz.mapper.TestDB2;
 
 import com.cxz.model.TOrderRefund;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

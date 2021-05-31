@@ -1,9 +1,7 @@
 package com.cxz.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.cxz.mapper.OrderMapper;
-import com.cxz.mapper.TOrderRefundMapper;
-import com.cxz.model.Order;
+import com.cxz.mapper.TestDB2.TOrderRefundMapper;
 import com.cxz.model.TOrderRefund;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

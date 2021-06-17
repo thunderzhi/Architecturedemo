@@ -18,7 +18,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <druid.version>1.1.23</druid.version>
-    <mysql.version>8.0.21</mysql.version>
+    <mysql.version>5.1.45</mysql.version>
     <junit.version>4.11</junit.version>
     <jstl.version>1.2</jstl.version>
     <servlet-api.version>4.0.1</servlet-api.version>

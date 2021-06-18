@@ -51,18 +51,37 @@ public class TestService {
         for (Order order : orders) {
             int i = orderMapper.insert(order);
             res +=i;
+            break;
+
         }
         for (TOrderRefund refund : refunds) {
             int i = tOrderRefundMapper.insert(refund);
-
-
             res +=i;
+            break;
 
-            if(res==8){
-                int j = 1/0;
-            }
         }
+        int j = 1/0;
         return res;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED,
+            rollbackFor = {Exception.class,RuntimeException.class},
+            transactionManager = "transactionManager")
+    public int multidbinsertNoErr(List<Order> orders,List<TOrderRefund> refunds){
+        int res =0;
+        for (Order order : orders) {
+            int i = orderMapper.insert(order);
+            res +=i;
+            break;
+
+        }
+        for (TOrderRefund refund : refunds) {
+            int i = tOrderRefundMapper.insert(refund);
+            res +=i;
+            break;
+
+        }
+
+        return res;
+    }
 }

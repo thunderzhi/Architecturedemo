@@ -86,4 +86,31 @@ public class TestController {
         return map;
     }
 
+    @RequestMapping(value = "/tranMultiDBNoErr", method = {RequestMethod.GET})
+    @ApiOperation(httpMethod = "GET", value = "tranMultiDBNoErr")
+    public Map<String, String> TranMultiDBNoErr(){
+
+        HashMap<String, String> map = new HashMap<>();
+        ArrayList<TOrderRefund> rorders = new ArrayList<>();
+        ArrayList<Order> orders = new ArrayList<>();
+        int i = 0;
+        while (i<6){
+            TOrderRefund rorder = new TOrderRefund();
+            rorder.setAmount(new BigDecimal(999));
+            //TOrderRefund.setCreatetime(LocalDateTime.now());
+            String rorderno = UUID.randomUUID().toString().substring(0,10);
+            rorder.setOrderno(rorderno);
+            rorders.add(rorder);
+            Order order = new Order();
+            order.setUsername("cxz");
+            order.setCreatetime(LocalDateTime.now());
+            String orderno = UUID.randomUUID().toString().substring(0,10);
+            order.setOrderno(orderno);
+            orders.add(order);
+            i++;
+        }
+        int res  = testService.multidbinsertNoErr(orders,rorders);
+        map.put("user", String.valueOf(res));
+        return map;
+    }
 }

@@ -6,4 +6,5 @@
 #### 软件架构
 软件架构说明
 
- 
+cxzmvc swagger UI html
+http://localhost:8080/cxzmvc/swagger-ui.html

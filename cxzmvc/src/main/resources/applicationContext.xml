@@ -35,9 +35,9 @@
 <!--        <property name="prefix" value="/WEB-INF/views/"></property>-->
 <!--        <property name="suffix" value=".jsp"></property>-->
 <!--    </bean>-->
-    <bean id="objectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"
-          p:indentOutput="true"
-          p:simpleDateFormat="yyyy-MM-dd" />
+<!--    <bean id="objectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"-->
+<!--          p:indentOutput="true"-->
+<!--          p:simpleDateFormat="yyyy-MM-dd" />-->
     <!--配置 mybatis 会话工厂 -->
 <!--    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
 <!--        <property name="dataSource" ref="dataSource"/>-->

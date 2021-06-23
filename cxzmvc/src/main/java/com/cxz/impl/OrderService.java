@@ -2,11 +2,10 @@ package com.cxz.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.cxz.mapper.OrderMapper;
-import com.cxz.mapper.TScoreMapper;
+import com.cxz.mapper.TestDB.OrderMapper;
+import com.cxz.mapper.TestDB.TScoreMapper;
 import com.cxz.model.Order;
 import com.cxz.model.TScore;
-import com.cxz.model.vo.OrderRequest;
 import com.cxz.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +30,9 @@ public class OrderService {
     private OrderMapper orderMapper;
     @Autowired
     private TScoreMapper scoreMapper;
+
+    @Autowired
+    private Order2Service order2Service;
 
     @Autowired
     private OrderDao orderDao;
@@ -234,4 +236,176 @@ public class OrderService {
 
 
     //endregion
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long func1(){
+        Order m = new Order();
+        m.setOrderno("6666666");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("func1");
+        m.setAmount(new BigDecimal(1111));
+
+        func2();
+        orderMapper.insert(m);
+        int x=1/0;
+
+        return m.getId();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW,transactionManager = "transactionManager")
+    public long func2(){
+        Order m = new Order();
+        m.setOrderno("777777");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("func2");
+        m.setAmount(new BigDecimal(2222));
+        orderMapper.insert(m);
+        return m.getId();
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long func3(){
+        Order m = new Order();
+        m.setOrderno("6666666");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("func1");
+        m.setAmount(new BigDecimal(1111));
+        orderMapper.insert(m);
+        func4();
+
+
+        return m.getId();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW,transactionManager = "transactionManager")
+    public long func4(){
+        Order m = new Order();
+        m.setOrderno("777777");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("func2");
+        m.setAmount(new BigDecimal(2222));
+        orderMapper.insert(m);
+        int x=1/0;
+        return m.getId();
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long func5(){
+        Order m = new Order();
+        m.setOrderno("555555");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("func1");
+        m.setAmount(new BigDecimal(55555));
+        orderMapper.insert(m);
+        order2Service.func6();
+
+
+        return m.getId();
+    }
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long func7(){
+        Order m = new Order();
+        order2Service.func8();
+        m.setOrderno("o2func7");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("o2func7");
+        m.setAmount(new BigDecimal(777));
+        orderMapper.insert(m);
+        int x=1/0;
+
+        return m.getId();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long outNotSupport(){
+        Order m = new Order();
+
+        m.setOrderno("outNotSupport");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("outNotSupport");
+        m.setAmount(new BigDecimal(777));
+        orderMapper.insert(m);
+        notSupport();
+        return m.getId();
+    }
+
+
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED,transactionManager = "transactionManager")
+    public long notSupport(){
+        Order m = new Order();
+
+        m.setOrderno("notSupport");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("notSupport");
+        m.setAmount(new BigDecimal(888));
+        orderMapper.insert(m);
+
+        int x=1/0;
+        return m.getId();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long outNotSupport2(){
+        Order m = new Order();
+        m.setOrderno("outNotSupport");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("outNotSupport");
+        m.setAmount(new BigDecimal(777));
+        orderMapper.insert(m);
+        order2Service.notSupport();
+        return m.getId();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long outnevertrans(){
+        Order m = new Order();
+        m.setOrderno("outnevertrans");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("outnevertrans");
+        m.setAmount(new BigDecimal(777));
+        orderMapper.insert(m);
+        order2Service.nevertrans();
+        return  m.getId();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED,transactionManager = "transactionManager")
+    public long outnestnoTran(){
+        Order m = new Order();
+        m.setOrderno("outnestnoTran");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("outsetTran");
+        m.setAmount(new BigDecimal(777));
+        order2Service.nested();
+        orderMapper.insert(m);
+
+        int i = 1/0;
+
+        return  m.getId();
+    }
+    @Transactional(propagation = Propagation.NESTED,transactionManager = "transactionManager")
+    public long nested(){
+        Order m = new Order();
+        m.setOrderno("nested");
+        m.setCreatetime(LocalDateTime.now());
+        m.setDataflag(1);
+        m.setUsername("nested");
+        m.setAmount(new BigDecimal(777));
+        orderMapper.insert(m);
+        int i = 1/0;
+        return  m.getId();
+    }
+
 }

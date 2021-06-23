@@ -1,6 +1,8 @@
 package com.cxz.controller;
 
 import com.cxz.impl.TestService;
+import com.cxz.model.Order;
+import com.cxz.model.TOrderRefund;
 import com.cxz.model.TUser;
 import com.cxz.utils.JsonUtil;
 import com.cxz.utils.StringUtils;
@@ -15,9 +17,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * @author cxz
@@ -56,5 +58,59 @@ public class TestController {
         return map;
     }
 
+    @RequestMapping(value = "/tranMultiDB", method = {RequestMethod.GET})
+    @ApiOperation(httpMethod = "GET", value = "tranMultiDB")
+    public Map<String, String> TranMultiDB(){
 
+        HashMap<String, String> map = new HashMap<>();
+        ArrayList<TOrderRefund> rorders = new ArrayList<>();
+        ArrayList<Order> orders = new ArrayList<>();
+        int i = 0;
+        while (i<6){
+            TOrderRefund rorder = new TOrderRefund();
+            rorder.setAmount(new BigDecimal(999));
+            //TOrderRefund.setCreatetime(LocalDateTime.now());
+            String rorderno = UUID.randomUUID().toString().substring(0,10);
+            rorder.setOrderno(rorderno);
+            rorders.add(rorder);
+            Order order = new Order();
+            order.setUsername("cxz");
+            order.setCreatetime(LocalDateTime.now());
+            String orderno = UUID.randomUUID().toString().substring(0,10);
+            order.setOrderno(orderno);
+            orders.add(order);
+            i++;
+        }
+        int res  = testService.multidbinsert(orders,rorders);
+        map.put("user", String.valueOf(res));
+        return map;
+    }
+
+    @RequestMapping(value = "/tranMultiDBNoErr", method = {RequestMethod.GET})
+    @ApiOperation(httpMethod = "GET", value = "tranMultiDBNoErr")
+    public Map<String, String> TranMultiDBNoErr(){
+
+        HashMap<String, String> map = new HashMap<>();
+        ArrayList<TOrderRefund> rorders = new ArrayList<>();
+        ArrayList<Order> orders = new ArrayList<>();
+        int i = 0;
+        while (i<6){
+            TOrderRefund rorder = new TOrderRefund();
+            rorder.setAmount(new BigDecimal(999));
+            //TOrderRefund.setCreatetime(LocalDateTime.now());
+            String rorderno = UUID.randomUUID().toString().substring(0,10);
+            rorder.setOrderno(rorderno);
+            rorders.add(rorder);
+            Order order = new Order();
+            order.setUsername("cxz");
+            order.setCreatetime(LocalDateTime.now());
+            String orderno = UUID.randomUUID().toString().substring(0,10);
+            order.setOrderno(orderno);
+            orders.add(order);
+            i++;
+        }
+        int res  = testService.multidbinsertNoErr(orders,rorders);
+        map.put("user", String.valueOf(res));
+        return map;
+    }
 }

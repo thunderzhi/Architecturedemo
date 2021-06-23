@@ -1,4 +1,4 @@
-package com.cxz.mapper;
+package com.cxz.mapper.TestDB;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -17,10 +17,11 @@ import java.util.List;
  * @since 2021-01-17
  */
 @Mapper
+//@Qualifier("sqlSessionFactory")
 public interface OrderMapper extends BaseMapper<Order>{
 
 
-    @SelectProvider(type =OrderQueryManager.class,method = "selectAll")
+    @SelectProvider(type = OrderQueryManager.class,method = "selectAll")
 //    @ResultMap("BaseResultMap")
     @Results({@Result(column = "Id",property = "Id"),
             @Result(column = "CreateTime",property = "createtime"),

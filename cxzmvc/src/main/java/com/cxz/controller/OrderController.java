@@ -1,4 +1,4 @@
-﻿package com.cxz.controller;
+package com.cxz.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -250,6 +250,77 @@ public class OrderController {
                 map.put("200", String.valueOf(l));
                 return map;
         }
+        @RequestMapping(value = "/requirenew1", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "requirenew1")
+        public Map<String, String> requirenew1() {
+                long l = orderService.func1();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+        @RequestMapping(value = "/requirenew2", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "requirenew2")
+        public Map<String, String> requirenew2() {
+                long l = orderService.func3();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+        @RequestMapping(value = "/requirenew3", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "requirenew3")
+        public Map<String, String> requirenew3() {
+                long l = orderService.func5();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+        @RequestMapping(value = "/requirenew4", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "requirenew4")
+        public Map<String, String> requirenew4() {
+                long l = orderService.func7();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+        @RequestMapping(value = "/not_supported", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "not_supported")
+        public Map<String, String> not_supported() {
+                long l = orderService.outNotSupport();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+        @RequestMapping(value = "/not_supported2", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "not_supported2")
+        public Map<String, String> not_supported2() {
+                long l = orderService.outNotSupport2();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+        @RequestMapping(value = "/nevertrans", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "nevertrans")
+        public Map<String, String> nevertrans() {
+                long l = orderService.outnevertrans();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+        @RequestMapping(value = "/outnestnoTran", method = {RequestMethod.POST})
+        @ApiOperation(httpMethod = "POST", value = "outnestnoTran")
+        public Map<String, String> outnestnoTran() {
+                long l = orderService.outnestnoTran();
+                Map<String, String> map = new HashMap<>();
+                map.put("200", String.valueOf(l));
+                return map;
+        }
+
+
+
+
 
         @RequestMapping(value = "/updatewherein", method = {RequestMethod.POST})
         @ApiOperation(httpMethod = "POST", value = "updatewherein")//swagger 当前接口注解

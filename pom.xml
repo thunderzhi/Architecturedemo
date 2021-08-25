@@ -29,7 +29,7 @@
         <module>cxzmvc</module>
         <module>demospringboot</module>
         <module>cloudqueue</module>
-
+        <module>cxzmvcsp</module>
     </modules>
 
     <properties>

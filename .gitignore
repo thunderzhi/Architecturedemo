@@ -59,3 +59,7 @@ build/
 /cxzmvc/src/main/resources/db.properties
 /codegenerator/src/main/resources/application.properties
 /demogen/src/main/resources/mybatis-generator.xml
+/cxzmvcsp/.mvn/wrapper/maven-wrapper.properties
+/cxzmvcsp/.mvn/wrapper/MavenWrapperDownloader.java
+/cxzmvcsp/mvnw
+/cxzmvcsp/mvnw.cmd

@@ -1,4 +1,4 @@
-package com.cxz.mapper;
+package com.cxz.mapper.TestDB;
 
 import com.cxz.model.TLeecode;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

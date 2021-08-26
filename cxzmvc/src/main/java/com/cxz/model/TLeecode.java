@@ -15,35 +15,33 @@ import lombok.EqualsAndHashCode;
  * @since 2021-08-26
  */
 @Data
-        @EqualsAndHashCode(callSuper = false)
-        @TableName("T_LEECODE")
+@EqualsAndHashCode(callSuper = false)
+@TableName("T_LEECODE")
 public class TLeecode implements Serializable {
 
-private static final long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 
-                @TableField("translatedTitle")
-                    private String translatedtitle;
+    @TableField("translatedTitle")
+    private String translatedtitle;
 
-                @TableField("frontendId")
-                    private String frontendid;
+    @TableField("frontendId")
+    private String frontendid;
 
-                @TableField("titleSlug")
-                    private String titleslug;
+    @TableField("titleSlug")
+    private String titleslug;
 
-                            private String title;
+    private String title;
 
-                            private String difficulty;
+    private String difficulty;
 
-                @TableField("lastSubmittedAt")
-                    private String lastsubmittedat;
+    @TableField("lastSubmittedAt")
+    private String lastsubmittedat;
 
-                @TableField("numSubmitted")
-                    private Integer numsubmitted;
+    @TableField("numSubmitted")
+    private Integer numsubmitted;
 
-                @TableField("lastSubmissionSrc")
-                    private String lastsubmissionsrc;
+    @TableField("lastSubmissionSrc")
+    private String lastsubmissionsrc;
 
-                            private String typename;
-
-
-        }
+    private String typename;
+}

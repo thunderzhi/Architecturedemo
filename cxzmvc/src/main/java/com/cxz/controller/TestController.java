@@ -113,4 +113,13 @@ public class TestController {
         map.put("user", String.valueOf(res));
         return map;
     }
+
+    @RequestMapping(value = "/BatchLeeCode", method = {RequestMethod.GET})
+    @ApiOperation(httpMethod = "GET", value = "BatchLeeCode")
+    public Map<String, String> BatchLeeCode(){
+        HashMap<String, String> map = new HashMap<>();
+        int res = testService.batchAddLC();
+        map.put("user", String.valueOf(res));
+        return map;
+    }
 }

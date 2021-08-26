@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxz.mapper.TLeecodeMapper">
+
+                <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="com.cxz.model.TLeecode">
+                                                                                                                                                                                                                                                                                                    <result column="Id" property="id" />
+                                                            <result column="translatedTitle" property="translatedtitle" />
+                                                                <result column="frontendId" property="frontendid" />
+                                                                <result column="titleSlug" property="titleslug" />
+                                                                <result column="title" property="title" />
+                                                                <result column="difficulty" property="difficulty" />
+                                                                <result column="lastSubmittedAt" property="lastsubmittedat" />
+                                                                <result column="numSubmitted" property="numsubmitted" />
+                                                                <result column="lastSubmissionSrc" property="lastsubmissionsrc" />
+                                                                <result column="__typename" property="typename" />
+                                    </resultMap>
+
+                <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+            Id,
+        translatedTitle, frontendId, titleSlug, title, difficulty, lastSubmittedAt, numSubmitted, lastSubmissionSrc, __typename
+    </sql>
+
+    </mapper>

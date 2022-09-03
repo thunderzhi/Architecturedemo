@@ -28,7 +28,7 @@
         <module>utils</module>
         <module>cxzmvc</module>
         <module>demospringboot</module>
-        <module>cloudqueue</module>
+        <module>cloudqueue</module> 
 
     </modules>
 

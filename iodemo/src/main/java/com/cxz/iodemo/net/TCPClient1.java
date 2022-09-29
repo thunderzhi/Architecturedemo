@@ -35,5 +35,10 @@ public class TCPClient1 {
         BufferedReader br2 = new BufferedReader(new InputStreamReader(is2));
         mess = br2.readLine();
         System.out.println("服务器s2："+mess);
+        try {
+            Thread.sleep(60000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

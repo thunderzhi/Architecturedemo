@@ -70,6 +70,7 @@ public class RedisopController {
     /*
      * 获取key value*/
     @RequestMapping(value = "/getkey", method = {RequestMethod.POST,RequestMethod.GET})
+    @ApiOperation(httpMethod = "GET", value = "getkey")
     //@ResponseBody
     public Map<String, String> getkey(@RequestParam("key")  String key)  {
         User u = new User();
@@ -107,19 +108,32 @@ public class RedisopController {
     }
     /*
      * lock*/
-    @RequestMapping(value = "/lock")
-    public Map<String, String> lock(){
+    @RequestMapping(value = "/lock2")
+    @ApiOperation(httpMethod = "GET", value = "lock2")
+    public Map<String, String> lock2(){
         HashMap json = new HashMap();
         boolean res = false;
         res= redisService.lock("lock","1",20000);
         json.put("lock res =",String.valueOf(res));
         return json;
     }
-    @RequestMapping(value = "/unlock")
-    public Map<String, String> unlock(){
+
+    @RequestMapping(value = "/lock")
+    @ApiOperation(httpMethod = "GET", value = "lock")
+    public Map<String, String> lock(){
         HashMap json = new HashMap();
         boolean res = false;
-        res= redisService.unlock("lock","1");
+        res= redisService.lock("lock",Thread.currentThread().getName(),20000);
+        json.put("lock res =",String.valueOf(res));
+        return json;
+    }
+
+    @RequestMapping(value = "/unlock")
+    @ApiOperation(httpMethod = "GET", value = "unlock")
+    public Map<String, String> unlock(@RequestParam("key")  String v){
+        HashMap json = new HashMap();
+        boolean res = false;
+        res= redisService.unlock("lock",v);
         json.put("unlock res =",String.valueOf(res));
         return json;
     }

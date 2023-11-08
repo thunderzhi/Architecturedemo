@@ -34,4 +34,11 @@ public class IndexController {
         System.out.println("方法2执行");
         return "hello cccccd";
     }
+    @GetMapping("/index3")
+    public String index3(){
+        aopService.test1();
+
+        System.out.println("方法3执行");
+        return "hello ttt";
+    }
 }

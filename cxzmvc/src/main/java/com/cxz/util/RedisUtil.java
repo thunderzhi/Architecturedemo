@@ -3,6 +3,9 @@ package com.cxz.util;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;
@@ -13,6 +16,8 @@ import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisCluster;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -34,7 +39,7 @@ public class RedisUtil {
     private RedisTemplate redistemplate;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-
+    private static final Long RELEASE_SUCCESS=1L;
     private static final String lockStr ="local key = KEYS[1]\n" +
             "local content = ARGV[1]\n" +
             "local ttl = tonumber(ARGV[2])\n" +
@@ -67,13 +72,22 @@ public class RedisUtil {
      * @return: boolean
      */
     public synchronized boolean lock(String key, String requestId, long expire) {
-        return (Boolean) redistemplate.execute((RedisCallback) connection -> {
-            Boolean result = connection.set(key.getBytes(), requestId.getBytes(),
-                    Expiration.from(expire, TimeUnit.SECONDS), RedisStringCommands.SetOption.SET_IF_ABSENT);
-            return result;
-        });
+        try {
+            logger.debug("lock "+key+" value "+ requestId);
+
+            return (Boolean) redistemplate.execute((RedisCallback) connection -> {
+                Boolean result = connection.set(key.getBytes(), requestId.getBytes(),
+                        Expiration.from(expire, TimeUnit.MILLISECONDS), RedisStringCommands.SetOption.SET_IF_ABSENT);
+                return result;
+            });
+        }
+        catch (Exception ex ){
+            logger.debug("lock异常!",ex);
+        }
+        return false;
     }
     public synchronized boolean lock2(String key, String value, long milliseconds){
+
         try {
             DefaultRedisScript<Boolean> redisScript = new
                     DefaultRedisScript<Boolean>(lockStr,Boolean.class);
@@ -113,13 +127,46 @@ public class RedisUtil {
      * @Date: 2019-06-04 17:21
      * @return: boolean
      */
-    public synchronized boolean releaseLock(String key, String requestId) {
-        return (Boolean) redistemplate.execute((RedisCallback) connection -> {
-            String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-            Boolean result = connection.eval(script.getBytes(), ReturnType.BOOLEAN, 1, key.getBytes(),
-                    requestId.getBytes());
-            return result;
-        });
+    public synchronized boolean releaselock(String key, String requestId) {
+        try {
+            logger.debug("releaselock "+key+" value "+ requestId);
+
+            List<String> keys = new ArrayList<>();
+            keys.add(key);
+            List<String> args = new ArrayList<>();
+            args.add(requestId);
+
+            Long result = (Long) redistemplate.execute(new RedisCallback<Long>() {
+                @Override
+                public Long doInRedis(RedisConnection connection) throws DataAccessException {
+                    Object nativeConnection = connection.getNativeConnection();
+                    // 集群模式和单机模式虽然执行脚本的方法一样，但是没有共同的接口，所以只能分开执行
+                    // 集群模式
+                    if (nativeConnection instanceof JedisCluster) {
+                        return (Long)((JedisCluster) nativeConnection).eval(unlockStr, keys, args);
+                    }
+
+                    // 单机模式
+                    else if (nativeConnection instanceof Jedis) {
+                        return (Long) (( Jedis) nativeConnection).eval(unlockStr, keys, args);
+                    }
+                    return 0L;
+                }
+            });
+            return RELEASE_SUCCESS.equals(result);
+//            return (Boolean) redistemplate.execute((RedisCallback) connection -> {
+//                String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+//                Boolean result = connection.eval(script.getBytes(), ReturnType.BOOLEAN, 1, key.getBytes(),
+//                        requestId.getBytes());
+//                return result;
+//            });
+        }
+        catch (Exception ex){
+            logger.debug("releaselock异常!",ex);
+        }
+        return false;
+
+
     }
 
     /**

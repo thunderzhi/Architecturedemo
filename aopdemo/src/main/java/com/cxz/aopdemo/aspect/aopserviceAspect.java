@@ -16,7 +16,8 @@ import org.springframework.util.StopWatch;
 @Component
 public class aopserviceAspect {
 
-   @Pointcut("execution(* com.cxz.aopdemo.service.AopService.*(..))")//指定方法
+//   @Pointcut("execution(* com.cxz.aopdemo.service.AopService.*(..))")//指定方法
+   @Pointcut("execution(* com.cxz.aopdemo.service.AopService.test())")//指定方法
     //@Pointcut("execution(* com.cxz.aopdemo.service.*.*(..))")//指定包下
     //@Pointcut("execution(* com..*() )")
     //@Pointcut("execution(* com.cxz.aopdemo.service.Test.*(..))")//指定接口

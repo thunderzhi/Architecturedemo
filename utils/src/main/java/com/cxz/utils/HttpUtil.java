@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -44,6 +45,8 @@ public class HttpUtil {
         return resStr;
     }
 
+
+
     public static String getInfo(String url,Map<String ,String> head) {
         String resStr = "";
         //创建OkHttpClient对象。
@@ -65,6 +68,30 @@ public class HttpUtil {
         return resStr;
     }
 
+    public static byte[] getByte(String url,Map<String ,String> head) {
+        String resStr = "";
+        //创建OkHttpClient对象。
+        Headers headerbuild = Headers.of(head);
+        OkHttpClient client = new OkHttpClient().newBuilder().connectTimeout(30000, TimeUnit.MILLISECONDS)
+                .readTimeout(30000, TimeUnit.MILLISECONDS)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .headers(headerbuild)
+                .build();
+        Call call = client.newCall(request);
+        byte[] data = null;
+        try {
+            Response response = call.execute();
+            InputStream inputStream = response.body().byteStream();
+            //获取自己数组
+            data = IOUtil.readInputStream(inputStream);
+            //resStr = response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
 
     public static String postInfo(String url, String json , Map<String ,String> head ){
         String resStr = "";

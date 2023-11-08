@@ -28,8 +28,10 @@ public interface RedisDao {
 
     /*锁*/
     boolean lock(String key, String value, long milliseconds);
+    boolean lock2(String key, String value, long milliseconds);
 
     boolean unlock(String key, String value);
+    boolean unlock2(String key, String value);
 
     long exp(String key);
 

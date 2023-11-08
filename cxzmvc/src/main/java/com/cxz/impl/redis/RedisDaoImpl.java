@@ -55,13 +55,22 @@ public class RedisDaoImpl implements RedisDao {
 
     /*锁*/
     @Override
-    public boolean lock(String key, String value, long milliseconds){
+    public boolean lock2(String key, String value, long milliseconds){
         return this.redisUtil.lock2(key, value,milliseconds);
     }
     @Override
-    public boolean unlock(String key, String value){
+    public boolean lock(String key, String value, long milliseconds){
+        return this.redisUtil.lock(key, value,milliseconds);
+    }
+    @Override
+    public boolean unlock2(String key, String value){
         return this.redisUtil.releaselock2(key, value);
     }
+    @Override
+    public boolean unlock(String key, String value){
+        return this.redisUtil.releaselock(key, value);
+    }
+
     @Override
     public long exp(String key){
         return this.redisUtil.getStrExpire(key);
